@@ -1,6 +1,7 @@
 import pyautogui as pag
 import time
 import random
+import os
 import cv2
 import wx
 from pytesseract import *
@@ -240,8 +241,8 @@ def check_click(filename):
     # 버튼의 이미지가 있다면, 화면에서 해당 버튼의 좌표를 산출할 수 있다.
     # https://pyautogui.readthedocs.io/en/latest/screenshot.html
     # pass_over_button = pag.locateOnScreen('button_pass_over.jpg')
-    button = pag.locateOnScreen(filename, grayscale=True, confidence=.9)
-    print(button)
+    button = pag.locateOnScreen(os.path.join('buttons/', filename), grayscale=True, confidence=.9)
+    print(os.path.join('buttons/', filename), button)
     # https://automatetheboringstuff.com/chapter18/
     # locateOnScreen은 이미지가 완벽하게 매칭되어야 함 ㅠㅠ
     # Note that the image on the screen must match the provided image perfectly in order to be recognized.
@@ -278,10 +279,10 @@ def check_status():
         return False
 
 
-dimension_mission(10)
-
-# while True:
-#     button_assistance()
+# dimension_mission(10)
+#
+while True:
+    button_assistance()
 #     # dimension_mission()
 #
 #     # start_battle
