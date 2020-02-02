@@ -13,21 +13,6 @@ import imutils
 
 # 전체화면에서
 nox_pos_x, nox_pos_y = 39, 36
-# x, 39, y: 36
-
-# while True:
-#     time.sleep(random.uniform(2.01, 4.23))
-#     x, y = pag.position()
-#     print('x, %s, y: %s' % (x, y))
-
-# but1 = {'t_l': {'x': 400, 'y': 500},
-#         'b_r': {'x': 500, 'y': 600}}
-
-# pag.moveTo(x=100, y=100)
-# pag.moveTo(x=800, y=200)
-# pag.moveTo(x=300, y=300)
-# pag.moveTo(x=700, y=400)
-# 쪽지 확인
 
 
 def check_att():
@@ -65,58 +50,6 @@ def mouse_click(pos_x, pos_y):
     pag.moveTo(x, y)
 
 
-# def pass_over_old():
-#     # 건너뛰기
-#     # x, 1601, y: 62
-#     # x, 1796, y: 130
-#     app = wx.App()
-#     screen = wx.ScreenDC()
-#     bmp = wx.Bitmap(1920, 1080)
-#     mem = wx.MemoryDC(bmp)
-#     # mem.Blit(0, 0, 1920, 1080, screen, 0, 0)
-#     mem.Blit(1601, 62, 1796, 130, screen, 0, 0)
-#     del mem
-#     text = pytesseract.image_to_string(bmp, lang='kor')
-#     print(text)
-
-
-# def pass_over2_old():
-#     screen = pag.screenshot(region=(1601, 62, 1796-1601, 130-62))
-#     screen.save("button.jpg")
-#
-#     text = pytesseract.image_to_string(Image.open("button.jpg"), config='-psm 6')
-#     # text = pytesseract.image_to_string(screen, lang='kor')
-#     print(text)
-#     # https: // pyautogui.readthedocs.io / en / latest / quickstart.html  # general-functions
-
-
-# def pass_over3_old():
-#     screen = pag.screenshot(region=(1601, 62, 1796-1601, 130-62))
-#     screen.save("D:/tmp/tmp.jpg")
-#     imageA = cv2.imread("D:/tmp/tmp.jpg")
-#     # imageA = cv2.imread(screen)
-#     # # imageA = screen.
-#     imageB = cv2.imread("button.jpg")
-#
-#     # cv2.imshow("Screenshot", screen)
-#     # cv2.imshow("SavedImage", imutils.resize(imageB, width=600))
-#
-#     # convert the images to grayscale
-#     grayA = cv2.cvtColor(imageA, cv2.COLOR_BGR2GRAY)
-#     grayB = cv2.cvtColor(imageB, cv2.COLOR_BGR2GRAY)
-#
-#     # images, ensuring that the difference image is returned
-#     (score, diff) = structural_similarity(grayA, grayB, full=True)
-#     # diff = (diff * 255).astype("uint8")
-#     # print("SSIM: {}".format(score))
-#     if score > 0.95:
-#         mouse_click((1796+1601)/2 + random.uniform(0, (1796-1601)*0.7),
-#                     (130+62)/2 + random.uniform(0, (130-62)*0.7))
-#     # https://www.pyimagesearch.com/2017/06/19/image-difference-with-opencv-and-python/
-
-# pass_over3()
-
-
 def pass_over4():
     # 버튼의 이미지가 있다면, 화면에서 해당 버튼의 좌표를 산출할 수 있다.
     # https://pyautogui.readthedocs.io/en/latest/screenshot.html
@@ -134,30 +67,19 @@ def pass_over4():
                     pass_over_button[1] + pass_over_button[3]/2 + random.uniform(0, pass_over_button[3]*0.3))
         # pag.moveTo(x=pass_over_button[0], y=pass_over_button[1])
 
-# pass_over4()
-
-# def capture_screen():
-#     app = wx.App()
-#     screen = wx.ScreenDC()
-#     bmp = wx.Bitmap(1920, 1080)
-#     mem = wx.MemoryDC(bmp)
-#     # mem.Blit(0, 0, 1920, 1080, screen, 0, 0)
-#     mem.Blit(100, 100, 500, 500, screen, 0, 0)
-#     del mem
-#     bmp.SaveFile('wx1.bmp', wx.BITMAP_TYPE_BMP)
-
-
-# capture_screen()
-
-# x, y = pag.position()
-# print('x, %s, y: %s' % (x, y))
-# # x, 3216, y: 244
 
 def sleep_click(pos_x, pos_y, width, height, sleep_min, sleep_max):
     time.sleep(random.uniform(sleep_min, sleep_max))
     start_battle_x, start_battle_y = pos_x, pos_y
     mouse_click(start_battle_x + random.uniform(-0.4*width, 0.4*width),
                 start_battle_y + random.uniform(-0.4*height, 0.4*height))
+
+
+def sleep_click_v2(pos_x1, pos_y1, pos_x2, pos_y2, sleep_min, sleep_max):
+    time.sleep(random.uniform(sleep_min, sleep_max))
+    center_x, center_y = (pos_x1+pos_x2)/2, (pos_y1+pos_y2)/2
+    mouse_click(center_x + random.uniform(-0.4*(pos_x2-pos_x1), 0.4*(pos_x2-pos_x1)),
+                center_y + random.uniform(-0.4*(pos_y2-pos_y1), 0.4*(pos_y2-pos_y1)))
 
 
 def dimension_mission(num):
@@ -202,11 +124,93 @@ def dimension_mission(num):
         # sleep_click(pos_x, pos_y, width, height, sleep_min, sleep_max)
 
         while True:
-            if pag.locateOnScreen('reload_button.jpg', grayscale=True, confidence=.9):
+            if pag.locateOnScreen('buttons/reload_button.jpg', grayscale=True, confidence=.9):
                 check_click('reload_button.jpg')
                 break
             else:
                 time.sleep(random.uniform(4, 5))
+
+    #     # dimension_mission()
+
+    # time.sleep(random.uniform(2.01, 5.23))
+    # att_1_x, att_1_y = 1578, 667
+    # mouse_click(att_1_x + random.uniform(-50, 50),
+    #             att_1_y + random.uniform(-50, 50))
+    # # x, 1438, y: 944 ~ x, 1780, y: 1006
+    # # att_1_x, att_1_y = x, 1578, y: 667
+    # # att_2_x, att_2_y = x, 1466, y: 781
+    # # att_3_x, att_3_y = x, 1744, y: 668
+    # # att_4_x, att_4_y = x, 1474, y: 944
+    # # att_5_x, att_5_y = x, 1320, y: 936
+    # # 반지름은 100 정도 되는듯
+
+
+def iter_battle(cnt):
+    for i in range(cnt):
+        sleep_click(1618, 977, 300, 70, 2.01, 4.23)        # start_battle
+        while True:
+            if pag.locateOnScreen('buttons/reload_button.jpg', grayscale=True, confidence=.9):
+                time.sleep(random.uniform(2, 3))
+                check_click('reload_button.jpg')
+                time.sleep(random.uniform(4, 5))
+                break
+            else:
+                time.sleep(random.uniform(4, 5))
+
+
+def epic_quest(quest_seq, cnt):
+    # 다른 화면이라면 홈으로
+    # sleep_click(pos_x, pos_y, width, height, sleep_min, sleep_max)
+
+    print('enter battle')
+    sleep_click(1645, 988, 3, 25, 2.31, 4.23)   # enter_battle
+
+    print('epic quest')
+    sleep_click_v2(982, 326, 1376, 967, 2.01, 3.23)     # select_mission
+
+    if quest_seq == 3:  # 라이즈 오브 엑스맨
+        print('select_mission')
+        sleep_click_v2(1221, 215, 1712, 800, 2.01, 3.23)  # select_mission
+        sleep_click_v2(767, 764, 860, 854, 2.01, 3.23)  # chasing
+        for i in range(4):
+            if i == 0:
+                pass
+                # sleep_click_v2(308, 315, 545, 674, 2.01, 3.23)  # select_mission
+                # sleep_click_v2(1274, 730, 1454, 784, 2.01, 3.23)  # select_battle
+                # iter_battle(cnt)
+                # check_click('back_button.jpg')
+            elif i == 1:
+                pass
+                # sleep_click_v2(646, 317, 879, 676, 2.01, 3.23)  # select_mission
+                # sleep_click_v2(1274, 730, 1454, 784, 2.01, 3.23)  # select_battle
+                # iter_battle(cnt)
+                # check_click('back_button.jpg')
+            elif i == 2:
+                pass
+                # sleep_click_v2(977, 314, 1220, 675, 2.01, 3.23)  # select_mission
+                # sleep_click_v2(1274, 730, 1454, 784, 2.01, 3.23)  # select_battle
+                # iter_battle(cnt)
+                # check_click('back_button.jpg')
+            elif i == 3:
+                sleep_click_v2(1312, 311, 1551, 670, 2.01, 3.23)  # select_mission
+                sleep_click_v2(1274, 730, 1454, 784, 2.01, 3.23)  # select_battle
+                iter_battle(cnt)
+
+    # for i in range(cnt):
+    #     sleep_click(930, 986, 250, 70, 2.01, 4.23)        # ready_battle
+    #     sleep_click(1618, 977, 300, 70, 2.01, 4.23)       # start_battle
+    #
+    #     # "not_use_button.jpg"
+    #     time.sleep(random.uniform(2.01, 4.23))
+    #     check_click('not_use_button.jpg')
+    #     # sleep_click(pos_x, pos_y, width, height, sleep_min, sleep_max)
+    #
+    #     while True:
+    #         if pag.locateOnScreen('buttons/reload_button.jpg', grayscale=True, confidence=.9):
+    #             check_click('reload_button.jpg')
+    #             break
+    #         else:
+    #             time.sleep(random.uniform(4, 5))
 
     #     # dimension_mission()
 
@@ -280,9 +284,10 @@ def check_status():
 
 
 # dimension_mission(10)
-#
-while True:
-    button_assistance()
+epic_quest(3, 10)
+
+# while True:
+#     button_assistance()
 #     # dimension_mission()
 #
 #     # start_battle

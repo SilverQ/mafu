@@ -1,7 +1,7 @@
 import pyautogui as pag
 
-screen = pag.screenshot(region=(1568, 930, 1784-1568, 1004-937))
-screen.save('reload_button.jpg')
+screen = pag.screenshot(region=(53, 48, 115-53, 112-48))
+screen.save('buttons/back_button.jpg')
 
 # x, 1438, y: 944 ~ x, 1780, y: 1006
 
