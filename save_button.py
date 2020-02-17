@@ -1,7 +1,17 @@
 import pyautogui as pag
+import time
+# import random
 
-screen = pag.screenshot(region=(53, 48, 115-53, 112-48))
-screen.save('buttons/back_button.jpg')
+time.sleep(1)
+x1, y1 = pag.position()
+print('x, %s, y: %s' % (x1, y1))
+time.sleep(4)
+x2, y2 = pag.position()
+print('x, %s, y: %s' % (x2, y2))
+
+screen = pag.screenshot(region=(x1, y1, x2-x1, y2-y1))
+f_name = input('Filename please: ')
+screen.save('buttons/' + f_name + '.jpg')
 
 # x, 1438, y: 944 ~ x, 1780, y: 1006
 
