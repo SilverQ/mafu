@@ -143,12 +143,13 @@ def dimension_mission(num):
     check_click_v2('ok_button.jpg')
 
     for i in range(num):
+        print('iteration : ', i+1, ' / ', num)
         # ready_battle
         # time.sleep(random.uniform(3.01, 5.23))
         # ready_battle_x, ready_battle_y = 930, 986
         # mouse_click(ready_battle_x + random.uniform(-100, 100),
         #             ready_battle_y + random.uniform(-30, 30))
-        sleep_click(930, 986, 250, 70, 2.01, 4.23)
+        sleep_click(930, 986, 250, 70, 3.01, 4.23)
         # x, 765, y: 953 ~ x, 1082, y: 1013
 
         # start_battle
@@ -166,7 +167,7 @@ def dimension_mission(num):
 
         while True:
             if pag.locateOnScreen('buttons/reload_button.jpg', grayscale=True, confidence=.9):
-                time.sleep(random.uniform(1, 2))
+                time.sleep(random.uniform(1.3, 2.5))
                 check_click('reload_button.jpg')
                 break
             else:
@@ -189,7 +190,7 @@ def dimension_mission(num):
 
 def iter_battle(cnt):
     for i in range(cnt):
-        print('iteration : ', i)
+        print('iteration : ', i+1, ' / ', cnt)
         sleep_click(1618, 977, 300, 70, 2.01, 4.23)        # start_battle
         while True:
             if pag.locateOnScreen('buttons/reload_button.jpg', grayscale=True, confidence=.9):
@@ -355,25 +356,25 @@ def wait_click_v2(condition, filename):
 
 def iter_battle_v2(condition):
     while True:
-        sleep_click(1618, 977, 300, 70, 2.01, 4.23)        # start_battle
+        sleep_click(1618, 977, 300, 70, 2.51, 4.23)        # start_battle
         while True:
             if pag.locateOnScreen('buttons/reload_button.jpg', grayscale=True, confidence=.9):
                 time.sleep(random.uniform(3, 4))
                 check_click('reload_button.jpg')
-                time.sleep(random.uniform(2, 3.5))
+                time.sleep(random.uniform(2.5, 3.5))
                 break
             else:
                 time.sleep(random.uniform(2, 3))
 
 
-def check_status_v2(filename):
-    if pag.locateOnScreen(os.path.join('buttons/', filename), grayscale=True, confidence=0.9):
+def check_status_v2(filename, confidence=0.9):
+    if pag.locateOnScreen(os.path.join('buttons/', filename), grayscale=True, confidence=confidence):
         return True
     else:
         return False
 
 
-def first_family(cnt1=10, cnt2=3, cnt3=3):
+def first_family(cnt1=10, cnt2=3, cnt3=3, cnt4=3):
     go_home()
 
     wait_click('enter_battle.jpg')
@@ -394,7 +395,7 @@ def first_family(cnt1=10, cnt2=3, cnt3=3):
         wait_click('first_family_01_01.jpg')  # 사이좋은 형제
         sleep_click_v2(1274, 730, 1454, 784, 1.01, 2.23)  # 때려 부술 시간_4
         iter_battle(cnt1)
-        time.sleep(random.uniform(0.71, 1.53))
+        time.sleep(random.uniform(2.71, 3.53))
 
         check_click('back_button.jpg')
         time.sleep(random.uniform(0.71, 1.53))
@@ -406,10 +407,12 @@ def first_family(cnt1=10, cnt2=3, cnt3=3):
         wait_click('first_family_02.jpg')  # 뉴 페이스
         wait_click('first_family_02_01.jpg')  # 뉴 페이스
         iter_battle(cnt2)
-        time.sleep(random.uniform(1.71, 2.53))
+        time.sleep(random.uniform(2.71, 3.53))
         wait_click('ok_button.jpg')
         time.sleep(random.uniform(0.71, 1.53))
         check_click('reload_button.jpg')
+        time.sleep(random.uniform(2.71, 3.53))
+        check_click('back_button.jpg')
         time.sleep(random.uniform(0.71, 1.53))
         check_click('back_button.jpg')
         time.sleep(random.uniform(0.71, 1.53))
@@ -418,10 +421,26 @@ def first_family(cnt1=10, cnt2=3, cnt3=3):
         wait_click('first_family_02.jpg')  # 뉴 페이스
         wait_click('first_family_02_02.jpg')  # 사나운 초록색
         iter_battle(cnt3)
-        time.sleep(random.uniform(1.71, 2.53))
+        time.sleep(random.uniform(2.71, 3.53))
         check_click('ok_button.jpg')
         time.sleep(random.uniform(0.71, 1.53))
         check_click('reload_button.jpg')
+        time.sleep(random.uniform(2.71, 3.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(0.71, 1.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(0.71, 1.53))
+
+    if cnt4 > 0:
+        wait_click('first_family_03.jpg')  # 뉴 페이스
+        wait_click('first_family_03_01.jpg')  # 사나운 초록색
+        iter_battle(cnt4)
+        time.sleep(random.uniform(2.71, 3.53))
+        check_click('ok_button.jpg')
+        time.sleep(random.uniform(0.71, 1.53))
+        check_click('reload_button.jpg')
+        time.sleep(random.uniform(0.71, 1.53))
+        check_click('back_button.jpg')
         time.sleep(random.uniform(0.71, 1.53))
         check_click('back_button.jpg')
         time.sleep(random.uniform(0.71, 1.53))
@@ -448,6 +467,10 @@ def x_force(cnt1=10, cnt2=3):
         time.sleep(random.uniform(0.71, 1.53))
         check_click('back_button.jpg')
         time.sleep(random.uniform(0.71, 1.53))
+    if check_click_v2('x_force_01_02_locked.jpg'):
+        pass
+    else:
+        pass
 
     if cnt2 > 0:
         wait_click('x_force_02.jpg')  # 머저리
@@ -462,46 +485,93 @@ def x_force(cnt1=10, cnt2=3):
         time.sleep(random.uniform(0.71, 1.53))
 
 
-def rise_xman(cnt1=10, cnt2=10, cnt3=10, cnt4=10):
+def rise_xman(cnt1=10, cnt2=10, cnt3=10, cnt4=10, cnt5=2, cnt6=2):
     go_home()
 
     wait_click('enter_battle.jpg')
     wait_click('epic_quest.jpg')
 
     sleep_click_v2(1221, 215, 1712, 800, 1.01, 1.53)  # select_mission
-    sleep_click_v2(767, 764, 860, 854, 1.01, 1.53)  # chasing
-    time.sleep(random.uniform(1.01, 1.53))
 
     if cnt1 > 0:
+        sleep_click_v2(767, 764, 860, 854, 1.01, 1.53)  # chasing
+        time.sleep(random.uniform(1.01, 1.53))
         wait_click('rise_xman_01_01.jpg')
         # sleep_click_v2(308, 315, 545, 674, 1.01, 2.23)  # 악당이되다
         sleep_click_v2(1274, 730, 1454, 784, 1.01, 2.23)  # select_battle
         iter_battle(cnt1)
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
         check_click('back_button.jpg')
 
     if cnt2 > 0:
+        sleep_click_v2(767, 764, 860, 854, 1.01, 1.53)  # chasing
+        time.sleep(random.uniform(1.01, 1.53))
         wait_click('rise_xman_01_02.jpg')
         # sleep_click_v2(646, 317, 879, 676, 1.01, 2.23)  # 친구와 적
         sleep_click_v2(1274, 730, 1454, 784, 1.01, 2.23)  # select_battle
         iter_battle(cnt2)
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
         check_click('back_button.jpg')
     else:
         pass
 
     if cnt3 > 0:
+        sleep_click_v2(767, 764, 860, 854, 1.01, 1.53)  # chasing
+        time.sleep(random.uniform(1.01, 1.53))
         wait_click('rise_xman_01_03.jpg')
         # sleep_click_v2(977, 314, 1220, 675, 1.01, 2.23)  # 몰아치는 폭풍
         sleep_click_v2(1274, 730, 1454, 784, 1.01, 2.23)  # select_battle
         iter_battle(cnt3)
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
         check_click('back_button.jpg')
     else:
         pass
 
     if cnt4 > 0:
+        sleep_click_v2(767, 764, 860, 854, 1.01, 1.53)  # chasing
+        time.sleep(random.uniform(1.01, 1.53))
         wait_click('rise_xman_01_04.jpg')
         # sleep_click_v2(1312, 311, 1551, 670, 2.01, 3.23)  # 맹목적 전투
         sleep_click_v2(1274, 730, 1454, 784, 2.01, 3.23)  # select_battle
         iter_battle(cnt4)
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('back_button.jpg')
+        # time.sleep(random.uniform(1.71, 2.53))
+        # check_click('back_button.jpg')
+    else:
+        pass
+
+    if cnt5 > 0:
+        wait_click('rise_xman_02.jpg')
+        wait_click('rise_xman_02_01.jpg')
+        # sleep_click_v2(1312, 311, 1551, 670, 2.01, 3.23)  # 매그니토의 힘
+        sleep_click_v2(1274, 730, 1454, 784, 2.01, 3.23)  # select_battle
+        iter_battle(cnt5)
+        time.sleep(random.uniform(2.71, 3.53))
+        check_click('ok_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('back_button.jpg')
+        # time.sleep(random.uniform(1.71, 2.53))
+        # check_click('back_button.jpg')
+    else:
+        pass
+
+    if cnt6 > 0:
+        # wait_click('rise_xman_02.jpg')
+        wait_click('rise_xman_02_02.jpg')
+        # sleep_click_v2(1312, 311, 1551, 670, 2.01, 3.23)  # 되살아난 피닉스
+        sleep_click_v2(1274, 730, 1454, 784, 2.01, 3.23)  # select_battle
+        iter_battle(cnt6)
+        time.sleep(random.uniform(2.71, 3.53))
+        check_click('ok_button.jpg')
     else:
         pass
 
@@ -509,39 +579,52 @@ def rise_xman(cnt1=10, cnt2=10, cnt3=10, cnt4=10):
     # wait_click('back_button.jpg')
 
 
-def epic_quest_v2():
-    go_home()
+def ehdgml7602():
+    dimension_mission(10)
+    time.sleep(random.uniform(2.71, 3.53))
 
-    wait_click('enter_battle.jpg')
-    wait_click('epic_quest.jpg')
+    first_family(10, 3, 3, 3)
+    time.sleep(random.uniform(2.71, 3.53))
 
-    # first_family(10, 3, 3)
-    first_family(1, 1, 1)
-    time.sleep(random.uniform(1.71, 2.53))
-    x_force(1)
-    time.sleep(random.uniform(1.71, 2.53))
-    rise_xman(1, 1, 1, 1)
-    time.sleep(random.uniform(1.71, 2.53))
+    x_force(10, 3)
+    time.sleep(random.uniform(2.71, 3.53))
+
+    rise_xman(10, 10, 10, 10, 2, 2)
+    time.sleep(random.uniform(2.71, 3.53))
 
 
-# start_battle()
-# skip()
+def ehdgml7604():
+    # dimension_mission(8)
+    # time.sleep(random.uniform(2.71, 3.53))
+    #
+    # first_family(10, 3, 3, 0)
+    # time.sleep(random.uniform(2.71, 3.53))
+    #
+    # x_force(10, 3)
+    # time.sleep(random.uniform(2.71, 3.53))
 
-# epic_quest_v2()
-#
-# time.sleep(random.uniform(2.01, 5.23))
+    # rise_xman(10, 10, 10, 10, 2, 2)
+    rise_xman(0, 0, 0, 3, 2, 2)
+    time.sleep(random.uniform(2.71, 3.53))
 
-# dimension_mission(10)
-# time.sleep(random.uniform(2.71, 3.53))
 
-first_family(0, 0, 3)
-time.sleep(random.uniform(2.71, 3.53))
+def handhee2020():
+    dimension_mission(10)
+    time.sleep(random.uniform(2.71, 3.53))
 
-x_force(10, 3)
-time.sleep(random.uniform(2.71, 3.53))
+    # first_family(10, 3, 3, 0)
+    # time.sleep(random.uniform(2.71, 3.53))
 
-rise_xman(10, 10, 10, 10)
-time.sleep(random.uniform(2.71, 3.53))
+    # x_force(10, 3)
+    # time.sleep(random.uniform(2.71, 3.53))
+
+    # rise_xman(0, 0, 0, 8, 0, 0)
+    # time.sleep(random.uniform(2.71, 3.53))
+
+
+# ehdgml7604()        # StarangeHee
+# handhee2020()
+# ehdgml7602()        # 한또르
 
 # while True:
 #     button_assistance()
@@ -551,3 +634,82 @@ time.sleep(random.uniform(2.71, 3.53))
 #     # while not pag.locateOnScreen('reload_button.jpg', grayscale=True, confidence=.9):
 #     #     time.sleep(random.uniform(2.01, 5.23))
 #     # check_click('reload_button.jpg')
+
+def change_account(account_num):
+    # check_current_account
+    if account_num == 1:
+        if pag.locateOnScreen('buttons/Account01.jpg', grayscale=True, confidence=.9):
+            pass
+        else:
+            check_click('setting_button.jpg')
+            time.sleep(random.uniform(0.71, 1.53))
+            check_click('setting_account.jpg')
+            time.sleep(random.uniform(0.71, 1.53))
+            check_click('setting_account_01.jpg')
+            time.sleep(random.uniform(0.71, 1.53))
+            check_click('setting_account_02.jpg')
+            time.sleep(random.uniform(4.71, 6.53))
+            check_click('setting_account_03_acc01.jpg')
+            time.sleep(random.uniform(2.71, 3.53))
+            check_click('setting_account_04.jpg')
+            time.sleep(random.uniform(2.71, 3.53))
+            check_click('ok_button.jpg')
+            time.sleep(random.uniform(2.71, 3.53))
+            check_click('ok_button.jpg')
+            time.sleep(random.uniform(4.71, 5.53))
+            check_click('x_button.jpg')
+            time.sleep(random.uniform(2.71, 3.53))
+            check_click('ok_button.jpg')
+            time.sleep(random.uniform(2.71, 3.53))
+    elif account_num == 2:
+        if pag.locateOnScreen('buttons/Account02.jpg', grayscale=True, confidence=.9):
+            pass
+        else:
+            check_click('setting_button.jpg')
+            time.sleep(random.uniform(0.71, 1.53))
+            check_click('setting_account.jpg')
+            time.sleep(random.uniform(0.71, 1.53))
+            check_click('setting_account_01.jpg')
+            time.sleep(random.uniform(0.71, 1.53))
+            check_click('setting_account_02.jpg')
+            time.sleep(random.uniform(4.71, 6.53))
+            check_click('setting_account_03_acc02.jpg')
+            time.sleep(random.uniform(2.71, 3.53))
+            check_click('setting_account_04.jpg')
+            time.sleep(random.uniform(2.71, 3.53))
+            check_click('ok_button.jpg')
+            time.sleep(random.uniform(2.71, 3.53))
+            check_click('ok_button.jpg')
+            time.sleep(random.uniform(4.71, 5.53))
+            check_click('x_button.jpg')
+            time.sleep(random.uniform(2.71, 3.53))
+            check_click('ok_button.jpg')
+            time.sleep(random.uniform(2.71, 3.53))
+    elif account_num == 3:
+        if pag.locateOnScreen('buttons/Account03.jpg', grayscale=True, confidence=.9):
+            pass
+        else:
+            check_click('setting_button.jpg')
+            time.sleep(random.uniform(0.71, 1.53))
+            check_click('setting_account.jpg')
+            time.sleep(random.uniform(0.71, 1.53))
+            check_click('setting_account_01.jpg')
+            time.sleep(random.uniform(0.71, 1.53))
+            check_click('setting_account_02.jpg')
+            time.sleep(random.uniform(4.71, 6.53))
+            check_click('setting_account_03_acc03.jpg')
+            time.sleep(random.uniform(2.71, 3.53))
+            check_click('setting_account_04.jpg')
+            time.sleep(random.uniform(2.71, 3.53))
+            check_click('ok_button.jpg')
+            time.sleep(random.uniform(2.71, 3.53))
+            check_click('ok_button.jpg')
+            time.sleep(random.uniform(4.71, 5.53))
+            check_click('x_button.jpg')
+            time.sleep(random.uniform(2.71, 3.53))
+            check_click('ok_button.jpg')
+            time.sleep(random.uniform(2.71, 3.53))
+
+
+# change_account(3)
+dimension_mission(10)

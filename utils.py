@@ -89,7 +89,7 @@ def check_click(filename):
     # Box(left=1416, top=562, width=50, height=41)
     if button is not None:
         try:
-            print(button[0])
+            # print(button[0])
             mouse_click(button[0] + button[2]/2 + random.uniform(0, button[2]*0.3),
                         button[1] + button[3]/2 + random.uniform(0, button[3]*0.3))
             # pag.moveTo(x=pass_over_button[0], y=pass_over_button[1])
