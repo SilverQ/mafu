@@ -1,7 +1,9 @@
-import pyautogui
+# import pyautogui
 import time
 import numpy as np
 import pyscreenshot as ImageGrab
+import random
+import pyautogui as pag
 
 
 def mimagegrab():
@@ -23,7 +25,18 @@ def mimagegrab():
     # print(b)
 
 
-mimagegrab()
+# mimagegrab()
+
+# pag.scroll(random.randint(-50, -30))
+# pag.scroll(random.randint(30, 50) * -1)
+# pag.moveTo(900, 600)
+# pag.dragTo(900, 300, 3, button='left')
+
+pag.moveTo(random.uniform(851, 1024), random.uniform(653, 752))
+pag.dragTo(random.uniform(851, 1024), random.uniform(302, 376), random.uniform(0.4, 1.2), button='left')
+
+# x, 665, y: 245
+# x, 1251, y: 783
 
 #
 # def restartGame():

@@ -2,7 +2,7 @@ import pyautogui as pag
 import time
 # import random
 
-'''
+
 time.sleep(1)
 x1, y1 = pag.position()
 print('x, %s, y: %s' % (x1, y1))
@@ -19,7 +19,7 @@ screen.save('buttons/' + f_name + '.jpg')
 screen = pag.screenshot(region=(38, 37, 447-38, 82-37))
 # f_name = input('Filename please: ')
 screen.save('buttons/Account02.jpg')
-
+'''
 # x, 1438, y: 944 ~ x, 1780, y: 1006
 
 # att_1_x, att_1_y = x, 1502, y: 590
