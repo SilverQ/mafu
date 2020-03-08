@@ -6,7 +6,7 @@ from scipy.ndimage import rotate
 import time
 import random
 import os
-import tqdm
+from tqdm import tqdm
 
 
 # def ocr_att_button():
@@ -51,7 +51,7 @@ import tqdm
 def check_click_v2(filename):
     button = pag.locateOnScreen(os.path.join('buttons/', filename), grayscale=True, confidence=.9)
     # Box(left=1416, top=562, width=50, height=41)
-    print(filename, button)
+    # print(filename, button)
     if button is not None:
         try:
             mouse_click(button[0] + button[2] / 2 + random.uniform(0, button[2] * 0.3),
@@ -238,7 +238,7 @@ def wait_click(filename, wait_before_min=0.3, wait_before_max=0.8, wait_after_mi
         if button is not None:
             time.sleep(random.uniform(wait_before_min, wait_before_max))
             try:
-                print(os.path.join('buttons/', filename), button)
+                # print(os.path.join('buttons/', filename), button)
                 mouse_click(button[0] + button[2] / 2 + random.uniform(0, button[2] * 0.3),
                             button[1] + button[3] / 2 + random.uniform(0, button[3] * 0.3))
             finally:
@@ -260,8 +260,8 @@ def wait_click(filename, wait_before_min=0.3, wait_before_max=0.8, wait_after_mi
 
 
 def iter_battle(cnt):
-    for i in range(cnt):
-        print('iteration : ', i+1, ' / ', cnt)
+    for i in tqdm(range(cnt)):
+        # print('iteration : ', i+1, ' / ', cnt)
         # 1'st 시도
         # sleep_click(1618, 977, 300, 70, 2.01, 4.23)        # start_battle
         # while True:
@@ -342,8 +342,8 @@ def dimension_mission(num):
     time.sleep(random.uniform(1, 2))
     check_click_v2('ok_button.jpg')
 
-    for i in range(num):
-        print('iteration : ', i+1, ' / ', num)
+    for i in tqdm(range(num)):
+        # print('iteration : ', i+1, ' / ', num)
         # sleep_click(930, 986, 250, 70, 3.01, 4.23)        # ready_battle
         wait_click('ready_battle.jpg', 0.1, 0.5, 0.5, 1, 1)
         # sleep_click(1618, 977, 300, 70, 2.01, 3.23)        # start_battle

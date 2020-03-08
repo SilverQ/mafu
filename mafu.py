@@ -278,16 +278,16 @@ def ehdgml7604():
     # change_account(2)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
     # time.sleep(random.uniform(2.71, 3.53))
 
-    dimension_mission(8)
-    time.sleep(random.uniform(2.71, 3.53))
+    # dimension_mission(8)
+    # time.sleep(random.uniform(2.71, 3.53))
 
     first_family(10, 10, 3, 3, 3)        # 10, 10, 3, 3, 3
     time.sleep(random.uniform(2.71, 3.53))
 
-    x_force(10, 0, 0, 0, 0)         # 10, 0, 3, 0, 0
+    x_force(10, 0, 3, 0, 0)         # 10, 0, 3, 0, 0
     time.sleep(random.uniform(2.71, 3.53))
 
-    # rise_xman(0, 0, 0, 0, 2, 2)
+    rise_xman(10, 10, 0, 0, 2, 2)
     # rise_xman(10, 10, 10, 10, 2, 2)     # 10, 10, 10, 10, 2, 2
     # time.sleep(random.uniform(2.71, 3.53))
 
@@ -295,17 +295,17 @@ def ehdgml7604():
 
 
 def handhee2020():
-    change_account(3)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
+    # change_account(3)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
 
     dimension_mission(10)
     time.sleep(random.uniform(2.71, 3.53))
 
-    # first_family(10, 0, 3, 3, 0)        # 10, 0, 3, 3, 0
-    # time.sleep(random.uniform(2.71, 3.53))
-    #
-    # x_force(10, 0, 3, 0, 0)             # 10, 0, 3, 0, 0
-    # time.sleep(random.uniform(2.71, 3.53))
-    #
+    first_family(10, 0, 3, 3, 0)        # 10, 0, 3, 3, 0
+    time.sleep(random.uniform(2.71, 3.53))
+
+    x_force(10, 0, 3, 0, 0)             # 10, 0, 3, 0, 0
+    time.sleep(random.uniform(2.71, 3.53))
+
     # rise_xman(10, 10, 10, 10, 2, 2)     # 10, 10, 10, 10, 2, 2
     # time.sleep(random.uniform(2.71, 3.53))
     #
@@ -333,7 +333,7 @@ def test():
 # test()
 # ehdgml7602()        # 한또르(홍미)
 # ehdgml7604()        # StarangeHee
-# handhee2020()
+handhee2020()
 
 # while True:
 #     button_assistance()
@@ -345,7 +345,7 @@ def test():
 #     # check_click('reload_button.jpg')
 
 
-change_account(2)   # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
+# change_account(3)   # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
 # dimension_mission(10)
 # x_force(0, 9, 0, 0)
 # first_family(0, 10, 0, 0, 0)
