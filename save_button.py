@@ -12,7 +12,7 @@ print('x, %s, y: %s' % (x2, y2))
 
 screen = pag.screenshot(region=(x1, y1, x2-x1, y2-y1))
 f_name = input('Filename please: ')
-screen.save('buttons/' + f_name + '.jpg')
+screen.save('buttons(960x540)/' + f_name + '.jpg')
 
 '''
 
