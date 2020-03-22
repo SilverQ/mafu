@@ -7,6 +7,7 @@ import time
 import random
 import os
 from tqdm import tqdm
+import pickle
 
 
 # def ocr_att_button():
@@ -49,6 +50,13 @@ from tqdm import tqdm
 
 button_path = 'buttons/'
 button_path2 = 'buttons(960x540)/'
+
+
+def check_exist(filename, gray=True, confidence=.9):
+    if pag.locateOnScreen(os.path.join(button_path2, filename), grayscale=gray, confidence=confidence):
+        return True
+    else:
+        return False
 
 
 def check_click_v2(filename):
@@ -154,120 +162,128 @@ def wait_click(filename, wait_before_min=0.3, wait_before_max=0.8, wait_after_mi
 
 
 def change_account(account_num):
-    go_home()
+    file_to_check = 'Account0' + str(account_num) + '.jpg'
+    file_to_change = 'setting_account_03_acc0' + str(account_num) + '.jpg'
 
-    # check_current_account
-    if account_num == 1:
-        if pag.locateOnScreen(os.path.join(button_path2, 'Account01.jpg'), grayscale=True, confidence=.9):
-            pass
-        else:
-            # check_click('setting_button.jpg')
-            # time.sleep(random.uniform(0.91, 1.53))
-            # check_click('setting_account.jpg')
-            # time.sleep(random.uniform(0.91, 1.53))
-            # check_click('setting_account_01.jpg')
-            # time.sleep(random.uniform(0.91, 1.53))
-            # check_click('setting_account_02.jpg')
-            # time.sleep(random.uniform(4.91, 6.53))
-            # check_click('setting_account_03_acc01.jpg')
-            # time.sleep(random.uniform(2.71, 3.53))
-            # check_click('setting_account_04.jpg')
-            wait_click('setting_button.jpg', 0.1, 1.0, 0.1, 0.5, 0.5)
-            wait_click('setting_account.jpg', 0.1, 1.0, 0.1, 0.5, 0.5)
-            wait_click('setting_account_01.jpg', 0.1, 1.0, 0.1, 0.5, 0.5)
-            wait_click('setting_account_02.jpg', 0.7, 1.0, 0.1, 0.5, 0.5)
-            wait_click('setting_account_03_acc01.jpg', 0.1, 1.0, 0.1, 0.5, 0.5)
-            wait_click('setting_account_04.jpg', 0.1, 1.0, 0.1, 0.5, 0.5)
-    elif account_num == 2:
-        if pag.locateOnScreen(os.path.join(button_path2, 'Account02.jpg'), grayscale=True, confidence=.9):
-            pass
-        else:
-            check_click('setting_button.jpg')
-            time.sleep(random.uniform(0.91, 1.53))
-            check_click('setting_account.jpg')
-            time.sleep(random.uniform(0.91, 1.53))
-            check_click('setting_account_01.jpg')
-            time.sleep(random.uniform(0.91, 1.53))
-            check_click('setting_account_02.jpg')
-            time.sleep(random.uniform(4.91, 6.53))
-            check_click('setting_account_03_acc02.jpg')
-            time.sleep(random.uniform(2.71, 3.53))
-            check_click('setting_account_04.jpg')
-            # time.sleep(random.uniform(4.71, 5.53))
-            # check_click('ok_button.jpg')
-            # time.sleep(random.uniform(2.71, 3.53))
-            # check_click('ok_button.jpg')
-            # time.sleep(random.uniform(4.71, 5.53))
-            # check_click('x_button.jpg')
-            # time.sleep(random.uniform(2.71, 3.53))
-            # check_click('ok_button.jpg')
-            # time.sleep(random.uniform(2.71, 3.53))
-    elif account_num == 3:
-        if pag.locateOnScreen(os.path.join(button_path2, 'Account03.jpg'), grayscale=True, confidence=.9):
-            pass
-        else:
-            check_click('setting_button.jpg')
-            time.sleep(random.uniform(0.91, 1.53))
-            check_click('setting_account.jpg')
-            time.sleep(random.uniform(0.91, 1.53))
-            check_click('setting_account_01.jpg')
-            time.sleep(random.uniform(0.91, 1.53))
-            check_click('setting_account_02.jpg')
-            time.sleep(random.uniform(4.91, 6.53))
-            check_click('setting_account_03_acc03.jpg')
-            time.sleep(random.uniform(2.71, 3.53))
-            check_click('setting_account_04.jpg')
-            # time.sleep(random.uniform(4.71, 5.53))
-            # check_click('ok_button.jpg')
-            # time.sleep(random.uniform(2.71, 3.53))
-            # check_click('ok_button.jpg')
-            # time.sleep(random.uniform(4.71, 5.53))
-            # check_click('x_button.jpg')
-            # time.sleep(random.uniform(2.71, 3.53))
-            # check_click('ok_button.jpg')
-            # time.sleep(random.uniform(2.71, 3.53))
+    def enter_setting01():
+        check_click('setting_button.jpg')
+        time.sleep(random.uniform(0.91, 1.53))
+        check_click('setting_account.jpg')
+        time.sleep(random.uniform(0.91, 1.53))
+        check_click('setting_account_01.jpg')
+        time.sleep(random.uniform(0.91, 1.53))
+        check_click('setting_account_02.jpg')
+        time.sleep(random.uniform(4.91, 6.53))
+        wait_click(file_to_change, 4.91, 6.5, 0.1, 0.5, 0.5)
+        time.sleep(random.uniform(2.71, 3.53))
+        check_click('setting_account_04.jpg')
+        time.sleep(random.uniform(4.71, 5.53))
+        check_click('ok_button.jpg')
+        time.sleep(random.uniform(4.71, 5.53))
+        check_click('ok_button.jpg')
+        time.sleep(random.uniform(4.71, 5.53))
+        check_click('x_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('ok_button.jpg')
+        time.sleep(random.uniform(9.71, 12.53))
+        check_click('x_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('ok_button.jpg')
 
-    time.sleep(random.uniform(4.71, 5.53))
-    check_click('ok_button.jpg')
-    time.sleep(random.uniform(4.71, 5.53))
-    check_click('ok_button.jpg')
-    time.sleep(random.uniform(4.71, 5.53))
-    check_click('x_button.jpg')
-    time.sleep(random.uniform(1.71, 2.53))
-    check_click('ok_button.jpg')
-    time.sleep(random.uniform(9.71, 12.53))
-    check_click('x_button.jpg')
-    time.sleep(random.uniform(1.71, 2.53))
-    check_click('ok_button.jpg')
-    # while True:
-    #     if pag.locateOnScreen('buttons/setting_account_05.jpg', grayscale=True, confidence=.9):
-    #         check_click('x_button.jpg')
-    #         break
+    def enter_setting02():
+        wait_click('setting_button.jpg', 0.9, 1.5, 0.1, 0.5, 0.5)
+        wait_click('setting_account.jpg', 0.9, 1.5, 0.4, 0.9, 0.5)
+        wait_click('setting_account_01.jpg', 0.9, 1.5, 0.1, 0.5, 0.5)
+        wait_click('setting_account_02.jpg', 0.9, 1.5, 0.1, 0.5, 0.5)
+        wait_click(file_to_change, 4.91, 6.5, 0.1, 0.5, 0.5)
+        time.sleep(random.uniform(2.71, 3.53))
+        check_click('setting_account_04.jpg')
+        time.sleep(random.uniform(4.71, 5.53))
+        check_click('ok_button.jpg')
+        time.sleep(random.uniform(4.71, 5.53))
+        check_click('ok_button.jpg')
+        time.sleep(random.uniform(4.71, 5.53))
+        check_click('x_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('ok_button.jpg')
+        time.sleep(random.uniform(9.71, 12.53))
+        check_click('x_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('ok_button.jpg')
+
+    def check_current_account(account_num):
+        current_account = 0
+        if check_exist('Account01.jpg'):
+            current_account = 1
+        elif check_exist('Account02.jpg'):
+            current_account = 2
+        elif check_exist('Account03.jpg'):
+            current_account = 3
+        return True if account_num == current_account else False
+
+    if pag.locateOnScreen(os.path.join(button_path2, 'setting_button.jpg'), grayscale=True, confidence=.9):
+        print('setting button is identified')
+    else:
+        print('setting button is not identified, go to home')
+        go_home()
+
+    # print('current account is no need to change' if check_current_account(account_num) else 'change account start')
+    if check_current_account(account_num):
+        print('current account is no need to change')
+    else:
+        print('change account start')
+        enter_setting01()
+
+    # print(file_to_check, file_to_change)
+
+    # enter_setting01()
+
+    # if account_num == 1:
+    #     if pag.locateOnScreen(os.path.join(button_path2, 'Account01.jpg'), grayscale=True, confidence=.9):
+    #         print('current account is ', account_num, ', there is no need to change')
+    #         pass
     #     else:
-    #         time.sleep(random.uniform(2.71, 3.53))
-
-    # time.sleep(random.uniform(4.71, 5.53))
-    # if pag.locateOnScreen('buttons/setting_account_06.jpg', grayscale=True, confidence=.9):
-    #     check_click('ok_button.jpg')
+    #         # enter_setting01()
+    #         enter_setting02()     # 비교용... 뭐가 나을까
+    #         # check_click('setting_account_03_acc01.jpg')
+    #         wait_click('setting_account_03_acc01.jpg', 4.91, 6.5, 0.1, 0.5, 0.5)
+    # elif account_num == 2:
+    #     if pag.locateOnScreen(os.path.join(button_path2, 'Account02.jpg'), grayscale=True, confidence=.9):
+    #         print('current account is ', account_num, ', there is no need to change')
+    #         pass
+    #     else:
+    #         enter_setting01()
+    #         check_click('setting_account_03_acc02.jpg')
+    # elif account_num == 3:
+    #     if pag.locateOnScreen(os.path.join(button_path2, 'Account03.jpg'), grayscale=True, confidence=.9):
+    #         print('current account is ', account_num, ', there is no need to change')
+    #         pass
+    #     else:
+    #         time.sleep(random.uniform(0.91, 1.53))
+    #         check_click('setting_button.jpg')
+    #         time.sleep(random.uniform(0.91, 1.53))
+    #         check_click('setting_account.jpg')
+    #         time.sleep(random.uniform(0.91, 1.53))
+    #         check_click('setting_account_01.jpg')
+    #         time.sleep(random.uniform(0.91, 1.53))
+    #         check_click('setting_account_02.jpg')
+    #         time.sleep(random.uniform(4.91, 6.53))
+    #         check_click('setting_account_03_acc03.jpg')
+    #
     # time.sleep(random.uniform(2.71, 3.53))
-    # if pag.locateOnScreen('buttons/setting_account_07.jpg', grayscale=True, confidence=.9):
-    #     check_click('x_button.jpg')
-    #     time.sleep(random.uniform(1.71, 2.53))
-    #     check_click('ok_button.jpg')
-    #
+    # check_click('setting_account_04.jpg')
+    # time.sleep(random.uniform(4.71, 5.53))
+    # check_click('ok_button.jpg')
+    # time.sleep(random.uniform(4.71, 5.53))
+    # check_click('ok_button.jpg')
+    # time.sleep(random.uniform(4.71, 5.53))
+    # check_click('x_button.jpg')
     # time.sleep(random.uniform(1.71, 2.53))
-    #
-    # def clan():
-    #     go_home()
-    #     check_click('main_menu.jpg')
-    #     wait_click('clan_01.jpg')
-    #     wait_click('clan_02.jpg')
-    #     check_click('ok_button.jpg')
-    #     wait_click('clan_03.jpg')
-    #     check_click('plus_button.jpg')
-    #     check_click('clan_04.jpg')
-    #
-    # # clan()
+    # check_click('ok_button.jpg')
+    # time.sleep(random.uniform(9.71, 12.53))
+    # check_click('x_button.jpg')
+    # time.sleep(random.uniform(1.71, 2.53))
+    # check_click('ok_button.jpg')
 
 
 def iter_battle(cnt):
@@ -364,6 +380,7 @@ def legendary_battle(account):
 
 # x, 234, y: 889
 # x, 245, y: 294
+        time.sleep(random.uniform(1.71, 2.53))
         check_click('legendary_01_06.jpg')              # 캡틴 마블
         wait_click('legendary_02.jpg', 0.1, 0.5, 1, 2, 1)   # 노멀
         for i in tqdm(range(5)):
@@ -750,3 +767,195 @@ def rise_xman(cnt1=10, cnt2=10, cnt3=10, cnt4=10, cnt5=2, cnt6=2):
 
     # time.sleep(random.uniform(0.71, 1.53))
     # wait_click('back_button.jpg')
+
+
+# def load_log(file):
+#     with open(file, 'rb') as f:
+#         return pickle.load(f)
+#         # print('first_family_01', game_log['max']['first_family_01'])
+
+
+# game_log = load_log('game_log.pickle')
+
+
+'''
+# Practice
+# print('time.time(): ', time.time())     # 1584853046.2530923
+# print('time.gmtime(time.time()): ', time.gmtime(time.time()))
+# # time.struct_time(tm_year=2020, tm_mon=3, tm_mday=22,
+# #                  tm_hour=4, tm_min=57, tm_sec=51, tm_wday=6, tm_yday=82, tm_isdst=0)
+# print('time.gmtime(time.time()).tm_mday: ', time.gmtime(time.time()).tm_mday)   # 22
+'''
+
+
+def load_log(file='game_log.pickle'):
+    last_modified = os.path.getctime(file) if os.path.exists(file) else -1
+    if time.gmtime(time.time()).tm_yday == last_modified:
+        game_log = pickle.load(open(file, 'rb'))
+    else:
+        game_log = {'max': {'dimension_mission': 10,
+                            'first_family_01': 10, 'first_family_02': 10, 'first_family_03': 3, 'first_family_04': 3,
+                            'first_family_05': 3, 'first_family_06': 3,
+                            'x_force_01': 10, 'x_force_02': 10, 'x_force_03': 3, 'x_force_04': 3,
+                            'x_force_05': 3, 'x_force_06': 3,
+                            'rise_xman_01': 10, 'rise_xman_02': 10, 'rise_xman_03': 10, 'rise_xman_04': 10,
+                            'rise_xman_05': 2, 'rise_xman_06': 2},
+                    1: {'dimension_mission': 10,
+                        'first_family_01': 10, 'first_family_02': 0, 'first_family_03': 3, 'first_family_04': 3,
+                        'first_family_05': 3, 'first_family_06': 0,
+                        'x_force_01': 10, 'x_force_02': 10, 'x_force_03': 3, 'x_force_04': 3,
+                        'x_force_05': 3, 'x_force_06': 0,
+                        'rise_xman_01': 10, 'rise_xman_02': 10, 'rise_xman_03': 10, 'rise_xman_04': 10,
+                        'rise_xman_05': 2, 'rise_xman_06': 2},
+                    2: {'dimension_mission': 10,
+                        'first_family_01': 10, 'first_family_02': 10, 'first_family_03': 3, 'first_family_04': 3,
+                        'first_family_05': 3, 'first_family_06': 0,
+                        'x_force_01': 10, 'x_force_02': 10, 'x_force_03': 3, 'x_force_04': 3,
+                        'x_force_05': 0, 'x_force_06': 0,
+                        'rise_xman_01': 10, 'rise_xman_02': 10, 'rise_xman_03': 10, 'rise_xman_04': 10,
+                        'rise_xman_05': 2, 'rise_xman_06': 2},
+                    3: {'dimension_mission': 10,
+                        'first_family_01': 10, 'first_family_02': 0, 'first_family_03': 3, 'first_family_04': 3,
+                        'first_family_05': 0, 'first_family_06': 0,
+                        'x_force_01': 10, 'x_force_02': 0, 'x_force_03': 3, 'x_force_04': 0,
+                        'x_force_05': 0, 'x_force_06': 0,
+                        'rise_xman_01': 10, 'rise_xman_02': 10, 'rise_xman_03': 10, 'rise_xman_04': 10,
+                        'rise_xman_05': 2, 'rise_xman_06': 2},
+                    '1_do': {'dimension_mission': 0,
+                             'first_family_01': 0, 'first_family_02': 0, 'first_family_03': 0, 'first_family_04': 0,
+                             'first_family_05': 0, 'first_family_06': 0,
+                             'x_force_01': 0, 'x_force_02': 0, 'x_force_03': 0, 'x_force_04': 0,
+                             'x_force_05': 0, 'x_force_06': 0,
+                             'rise_xman_01': 0, 'rise_xman_02': 0, 'rise_xman_03': 0, 'rise_xman_04': 0,
+                             'rise_xman_05': 0, 'rise_xman_06': 0},
+                    '2_do': {'dimension_mission': 0,
+                             'first_family_01': 0, 'first_family_02': 0, 'first_family_03': 0, 'first_family_04': 0,
+                             'first_family_05': 0, 'first_family_06': 0,
+                             'x_force_01': 0, 'x_force_02': 0, 'x_force_03': 0, 'x_force_04': 0,
+                             'x_force_05': 0, 'x_force_06': 0,
+                             'rise_xman_01': 0, 'rise_xman_02': 0, 'rise_xman_03': 0, 'rise_xman_04': 0,
+                             'rise_xman_05': 0, 'rise_xman_06': 0},
+                    '3_do': {'dimension_mission': 0,
+                             'first_family_01': 0, 'first_family_02': 0, 'first_family_03': 0, 'first_family_04': 0,
+                             'first_family_05': 0, 'first_family_06': 0,
+                             'x_force_01': 0, 'x_force_02': 0, 'x_force_03': 0, 'x_force_04': 0,
+                             'x_force_05': 0, 'x_force_06': 0,
+                             'rise_xman_01': 0, 'rise_xman_02': 0, 'rise_xman_03': 0, 'rise_xman_04': 0,
+                             'rise_xman_05': 0, 'rise_xman_06': 0}
+                    }
+    # print('game_log: ', game_log)
+    return game_log
+
+
+"""
+
+print("os.path.getctime('game_log.pickle'): ", os.path.getctime('game_log.pickle'))  # 1584806998.310804
+last_modified = os.path.getctime('game_log.pickle')
+print('time.gmtime(last_modified): ', time.gmtime(last_modified))
+# time.struct_time(tm_year=2020, tm_mon=3, tm_mday=21,
+#                  tm_hour=16, tm_min=9, tm_sec=58, tm_wday=5, tm_yday=81, tm_isdst=0)
+print('time.gmtime(last_modified).tm_mday: ', time.gmtime(last_modified).tm_mday)   # 21
+
+# load_log()
+if os.path.exists('game_log.pickle'):
+    now = time.strftime('%d', time.gmtime(time.time()))
+    # time.time() : Return the time in seconds since the epoch as a floating point number.
+    # the epoch is January 1, 1970, 00:00:00 (UTC) = gmtime(0)
+    print("time.strftime('%d', time.gmtime(time.time())): ", now)
+    # now = time.strftime('%d', time.time())
+    # print("time.strftime('%d', time.time()): ", now)  # TypeError: Tuple or struct_time argument required
+    wtime = time.strftime('%d', os.path.getctime('game_log.pickle'))
+    # wtime = os.path.getctime('game_log.pickle')
+    print(time.ctime(wtime), now)
+    game_log = pickle.load(open('game_log.pickle', 'rb'))
+    # print(game_log['max'], '\n', game_log[1])
+else:
+    init_log = {'max': {'dimension_mission': 10,
+                        'first_family_01': 10, 'first_family_02': 10, 'first_family_03': 3, 'first_family_04': 3,
+                        'first_family_05': 3, 'first_family_06': 3,
+                        'x_force_01': 10, 'x_force_02': 10, 'x_force_03': 3, 'x_force_04': 3,
+                        'x_force_05': 3, 'x_force_06': 3,
+                        'rise_xman_01': 10, 'rise_xman_02': 10, 'rise_xman_03': 10, 'rise_xman_04': 10,
+                        'rise_xman_05': 2, 'rise_xman_06': 2},
+                1: {'dimension_mission': 10,
+                    'first_family_01': 10, 'first_family_02': 0, 'first_family_03': 3, 'first_family_04': 3,
+                    'first_family_05': 3, 'first_family_06': 0,
+                    'x_force_01': 10, 'x_force_02': 10, 'x_force_03': 3, 'x_force_04': 3,
+                    'x_force_05': 3, 'x_force_06': 0,
+                    'rise_xman_01': 10, 'rise_xman_02': 10, 'rise_xman_03': 10, 'rise_xman_04': 10,
+                    'rise_xman_05': 2, 'rise_xman_06': 2},
+                2: {'dimension_mission': 10,
+                    'first_family_01': 10, 'first_family_02': 10, 'first_family_03': 3, 'first_family_04': 3,
+                    'first_family_05': 3, 'first_family_06': 0,
+                    'x_force_01': 10, 'x_force_02': 10, 'x_force_03': 3, 'x_force_04': 3,
+                    'x_force_05': 0, 'x_force_06': 0,
+                    'rise_xman_01': 10, 'rise_xman_02': 10, 'rise_xman_03': 10, 'rise_xman_04': 10,
+                    'rise_xman_05': 2, 'rise_xman_06': 2},
+                3: {'dimension_mission': 10,
+                    'first_family_01': 10, 'first_family_02': 0, 'first_family_03': 3, 'first_family_04': 3,
+                    'first_family_05': 0, 'first_family_06': 0,
+                    'x_force_01': 10, 'x_force_02': 0, 'x_force_03': 3, 'x_force_04': 0,
+                    'x_force_05': 0, 'x_force_06': 0,
+                    'rise_xman_01': 10, 'rise_xman_02': 10, 'rise_xman_03': 10, 'rise_xman_04': 10,
+                    'rise_xman_05': 2, 'rise_xman_06': 2},
+                '1_do': {'dimension_mission': 0,
+                         'first_family_01': 0, 'first_family_02': 0, 'first_family_03': 0, 'first_family_04': 0,
+                         'first_family_05': 0, 'first_family_06': 0,
+                         'x_force_01': 0, 'x_force_02': 0, 'x_force_03': 0, 'x_force_04': 0,
+                         'x_force_05': 0, 'x_force_06': 0,
+                         'rise_xman_01': 0, 'rise_xman_02': 0, 'rise_xman_03': 0, 'rise_xman_04': 0,
+                         'rise_xman_05': 0, 'rise_xman_06': 0},
+                '2_do': {'dimension_mission': 0,
+                         'first_family_01': 0, 'first_family_02': 0, 'first_family_03': 0, 'first_family_04': 0,
+                         'first_family_05': 0, 'first_family_06': 0,
+                         'x_force_01': 0, 'x_force_02': 0, 'x_force_03': 0, 'x_force_04': 0,
+                         'x_force_05': 0, 'x_force_06': 0,
+                         'rise_xman_01': 0, 'rise_xman_02': 0, 'rise_xman_03': 0, 'rise_xman_04': 0,
+                         'rise_xman_05': 0, 'rise_xman_06': 0},
+                '3_do': {'dimension_mission': 0,
+                         'first_family_01': 0, 'first_family_02': 0, 'first_family_03': 0, 'first_family_04': 0,
+                         'first_family_05': 0, 'first_family_06': 0,
+                         'x_force_01': 0, 'x_force_02': 0, 'x_force_03': 0, 'x_force_04': 0,
+                         'x_force_05': 0, 'x_force_06': 0,
+                         'rise_xman_01': 0, 'rise_xman_02': 0, 'rise_xman_03': 0, 'rise_xman_04': 0,
+                         'rise_xman_05': 0, 'rise_xman_06': 0}
+                }
+
+# print(game_log['max'], '\n', game_log[1])
+
+'''
+시작조건
+ - 처음 실행할 때는 _do의 수가 모두 0으로 입력
+ - 저장 파일이 어제 날짜라면, 시작조건에 해당
+유지조건
+ - 게임의 루프가 진행될 때마다 _do를 증분시키고 로그 파일을 저장하자
+종료조건
+ - 계정 번호의 최대값과 _do의 차가 0이라면 실행하지 않는다
+'''
+
+# print('first_family_01', game_log[1]['first_family_01'])
+
+
+# def write_file(data, file_path):
+#     with open(file_path, 'w', encoding='utf-8') as write_json:
+#         try:
+#             # write_json.write('\n'.join([json.dumps(d) for d in data]))
+#             pickle.dump(data, write_json)
+#         except:
+#             print('Err occured')
+#         finally:
+#             pass
+#
+#
+# write_file(game_log, 'game_log.txt')
+
+# def save_log():
+#     # log_dict = json.dumps(game_log)
+#     with open('game_log.pickle', 'wb') as f:
+#         pickle.dump(game_log, f)
+
+
+# save_log()
+
+pickle.dump(game_log, open('game_log.pickle', 'wb'))
+"""

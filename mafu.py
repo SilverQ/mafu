@@ -10,6 +10,8 @@ from skimage.metrics import structural_similarity
 from PIL import Image
 import imutils
 from utils import *
+import json
+import pickle
 # import tqdm
 
 
@@ -284,7 +286,7 @@ def ehdgml7604():
     # first_family(0, 0, 0, 0, 3)        # 10, 10, 3, 3, 3
     # time.sleep(random.uniform(2.71, 3.53))
 
-    x_force(0, 0, 0, 3, 0)         # 10, 0, 3, 3, 0
+    x_force(0, 0, 0, 3, 0)         # 10, 10, 3, 3, 0
     time.sleep(random.uniform(2.71, 3.53))
 
     rise_xman(10, 10, 10, 10, 0, 0)
@@ -312,23 +314,106 @@ def handhee2020():
     # sorcerer_supreme(3, 3)
 
 
-def test():
-    # change_account(2)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
-
-    dimension_mission(0)
+def first_family_all_account():
+    change_account(3)
+    time.sleep(random.uniform(2.71, 3.53))
+    first_family(10, 0, 3, 3, 0)
     time.sleep(random.uniform(2.71, 3.53))
 
-    first_family(0, 0, 0, 0)
+    change_account(2)
+    time.sleep(random.uniform(2.71, 3.53))
+    first_family(10, 10, 3, 3, 3)
     time.sleep(random.uniform(2.71, 3.53))
 
-    x_force(0, 0)
+    change_account(1)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
+    time.sleep(random.uniform(2.71, 3.53))
+    first_family(10, 0, 3, 3, 3)
     time.sleep(random.uniform(2.71, 3.53))
 
-    rise_xman(0, 0, 0, 0, 0, 0)
+
+def x_force_all_account():
+    change_account(1)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
+    time.sleep(random.uniform(2.71, 3.53))
+    x_force(10, 10, 3, 3, 3)       # 10, 10, 3, 3, 3
     time.sleep(random.uniform(2.71, 3.53))
 
+    change_account(2)
+    time.sleep(random.uniform(2.71, 3.53))
+    x_force(10, 10, 3, 3, 0)         # 10, 10, 3, 3, 0,  도미노 할 수 있는지 확인
+    time.sleep(random.uniform(2.71, 3.53))
+
+    change_account(3)
+    time.sleep(random.uniform(2.71, 3.53))
+    x_force(10, 0, 3, 0, 0)             # 10, 0, 3, 0, 0
+    time.sleep(random.uniform(2.71, 3.53))
+
+
+def rise_xman_all_account():
+    change_account(3)
+    time.sleep(random.uniform(2.71, 3.53))
+    rise_xman(10, 10, 10, 10, 2, 2)     # 10, 10, 10, 10, 2, 2
+    time.sleep(random.uniform(2.71, 3.53))
+
+    change_account(1)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
+    time.sleep(random.uniform(2.71, 3.53))
+    rise_xman(10, 10, 10, 10, 2, 2)     # 10, 10, 10, 10, 2, 2
+    time.sleep(random.uniform(2.71, 3.53))
+
+    change_account(2)
+    time.sleep(random.uniform(2.71, 3.53))
+    rise_xman(10, 10, 10, 10, 2, 2)     #
+    time.sleep(random.uniform(2.71, 3.53))
+
+
+def sorcerer_supreme_all_account():
+    change_account(1)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
+    time.sleep(random.uniform(2.71, 3.53))
     sorcerer_supreme(3, 3)
+    time.sleep(random.uniform(2.71, 3.53))
 
+    change_account(2)
+    time.sleep(random.uniform(2.71, 3.53))
+    sorcerer_supreme(3, 3)
+    time.sleep(random.uniform(2.71, 3.53))
+
+    # change_account(3)
+    # time.sleep(random.uniform(2.71, 3.53))
+    # sorcerer_supreme(3, 3)
+    # time.sleep(random.uniform(2.71, 3.53))
+
+
+def dimension_mission_all_account():
+    change_account(1)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
+    time.sleep(random.uniform(2.71, 3.53))
+    dimension_mission(10)
+    time.sleep(random.uniform(2.71, 3.53))
+
+    change_account(2)
+    time.sleep(random.uniform(2.71, 3.53))
+    dimension_mission(10)
+    time.sleep(random.uniform(2.71, 3.53))
+
+    change_account(3)
+    time.sleep(random.uniform(2.71, 3.53))
+    dimension_mission(10)
+    time.sleep(random.uniform(2.71, 3.53))
+
+
+def legendary_all_account():
+    change_account(1)
+    time.sleep(random.uniform(2.71, 3.53))
+    legendary_battle(1)     # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
+    time.sleep(random.uniform(2.71, 3.53))
+
+    change_account(2)
+    time.sleep(random.uniform(2.71, 3.53))
+    legendary_battle(2)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
+    time.sleep(random.uniform(2.71, 3.53))
+
+    change_account(3)
+    time.sleep(random.uniform(2.71, 3.53))
+    legendary_battle(3)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
+    time.sleep(random.uniform(2.71, 3.53))
 
 # test()
 # ehdgml7602()        # 한또르(홍미)
@@ -350,4 +435,14 @@ dimension_mission(10)
 # x_force(0, 9, 0, 0)
 # first_family(0, 10, 0, 0, 0)
 
-# legendary_battle(3)     # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
+# legendary_battle(1)     # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
+
+# dimension_mission_all_account()
+
+# first_family_all_account()
+
+# x_force_all_account()
+# rise_xman_all_account()
+# sorcerer_supreme_all_account()
+# legendary_all_account()
+# rise_xman(10, 10, 10, 10, 2, 2)     # 10, 10, 10, 10, 2, 2
