@@ -79,7 +79,10 @@ def mouse_click(pos_x, pos_y):
 
 '''
 # 전체화면에서
-nox_pos_x, nox_pos_y = 39, 36
+# nox_pos_x, nox_pos_y = 39, 36
+game_log = load_log('game_log.json')
+print(game_log)
+time.sleep(random.uniform(5.01, 10.23))
 
 
 def pass_over4():
@@ -280,18 +283,18 @@ def ehdgml7604():
     # change_account(2)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
     # time.sleep(random.uniform(2.71, 3.53))
 
-    # dimension_mission(10)
-    # time.sleep(random.uniform(2.71, 3.53))
-
-    # first_family(0, 0, 0, 0, 3)        # 10, 10, 3, 3, 3
-    # time.sleep(random.uniform(2.71, 3.53))
-
-    x_force(0, 0, 0, 3, 0)         # 10, 10, 3, 3, 0
+    dimension_mission(10)
     time.sleep(random.uniform(2.71, 3.53))
 
-    rise_xman(10, 10, 10, 10, 0, 0)
+    first_family(10, 10, 3, 3, 3)        # 10, 10, 3, 3, 3
+    time.sleep(random.uniform(2.71, 3.53))
+
+    x_force(10, 10, 3, 3, 0)         # 10, 10, 3, 3, 0
+    time.sleep(random.uniform(2.71, 3.53))
+
+    # rise_xman(10, 10, 10, 10, 2, 2)
     # rise_xman(0, 0, 0, 0, 2, 2)     # 10, 10, 10, 10, 2, 2
-    time.sleep(random.uniform(2.71, 3.53))
+    # time.sleep(random.uniform(2.71, 3.53))
 
     # sorcerer_supreme(3, 3)
 
@@ -302,7 +305,7 @@ def handhee2020():
     # dimension_mission(10)
     # time.sleep(random.uniform(2.71, 3.53))
     #
-    # first_family(0, 0, 3, 3, 0)        # 10, 0, 3, 3, 0
+    # first_family(0, 0, 3, 3, 3)        # 10, 10, 3, 3, 3
     # time.sleep(random.uniform(2.71, 3.53))
 
     x_force(10, 0, 3, 0, 0)             # 10, 0, 3, 0, 0
@@ -317,7 +320,7 @@ def handhee2020():
 def first_family_all_account():
     change_account(3)
     time.sleep(random.uniform(2.71, 3.53))
-    first_family(10, 0, 3, 3, 0)
+    first_family(10, 10, 3, 3, 3)
     time.sleep(random.uniform(2.71, 3.53))
 
     change_account(2)
@@ -366,20 +369,20 @@ def rise_xman_all_account():
 
 
 def sorcerer_supreme_all_account():
-    change_account(1)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
-    time.sleep(random.uniform(2.71, 3.53))
-    sorcerer_supreme(3, 3)
-    time.sleep(random.uniform(2.71, 3.53))
-
-    change_account(2)
-    time.sleep(random.uniform(2.71, 3.53))
-    sorcerer_supreme(3, 3)
-    time.sleep(random.uniform(2.71, 3.53))
-
-    # change_account(3)
+    # change_account(2)
     # time.sleep(random.uniform(2.71, 3.53))
     # sorcerer_supreme(3, 3)
     # time.sleep(random.uniform(2.71, 3.53))
+
+    change_account(1)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
+    time.sleep(random.uniform(2.71, 3.53))
+    sorcerer_supreme(1, 3)
+    time.sleep(random.uniform(2.71, 3.53))
+
+    change_account(3)
+    time.sleep(random.uniform(2.71, 3.53))
+    sorcerer_supreme(3, 3)
+    time.sleep(random.uniform(2.71, 3.53))
 
 
 def dimension_mission_all_account():
@@ -415,6 +418,75 @@ def legendary_all_account():
     legendary_battle(3)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
     time.sleep(random.uniform(2.71, 3.53))
 
+
+def do_log():
+    def check_current_account():
+        current_account = 0
+        if check_exist('Account01.jpg'):
+            current_account = 1
+        elif check_exist('Account02.jpg'):
+            current_account = 2
+        elif check_exist('Account03.jpg'):
+            current_account = 3
+        return current_account
+
+    for i in range(1, 4):
+        dim_to_do = game_log[str(i)]['dimension_mission'] - game_log[str(i)+'_do']['dimension_mission']
+        if dim_to_do > 0:
+            print('Playing account : ', str(i))
+            change_account(i)   # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
+            print('dimension mission : ', dim_to_do)
+            game_log[str(i)+'_do']['dimension_mission'] = dimension_mission(dim_to_do)
+            print('Done : ', game_log[str(i)+'_do']['dimension_mission'])
+            write_log(game_log)
+
+    for i in range(1, 4):
+        first_to_do = [game_log[str(i)]['first_family_01'] - game_log[str(i)+'_do']['first_family_01'],
+                       game_log[str(i)]['first_family_02'] - game_log[str(i)+'_do']['first_family_02'],
+                       game_log[str(i)]['first_family_03'] - game_log[str(i)+'_do']['first_family_03'],
+                       game_log[str(i)]['first_family_04'] - game_log[str(i)+'_do']['first_family_04'],
+                       game_log[str(i)]['first_family_05'] - game_log[str(i)+'_do']['first_family_05'],
+                       game_log[str(i)]['first_family_06'] - game_log[str(i)+'_do']['first_family_06']
+                       ]
+        if sum(i for i in first_to_do) > 0:
+            print('Playing account : ', str(i))
+            change_account(i)   # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
+            print('first_family : ', first_to_do)
+            log = first_family_v2(i, game_log)
+            print('Done : ', [log[str(i) + '_do']['first_family_01'],
+                              log[str(i) + '_do']['first_family_02'],
+                              log[str(i) + '_do']['first_family_03'],
+                              log[str(i) + '_do']['first_family_04'],
+                              log[str(i) + '_do']['first_family_05'],
+                              log[str(i) + '_do']['first_family_06'],
+                              ])
+            write_log(log)
+
+    for i in range(1, 4):
+        x_force_to_do = [game_log[str(i)]['x_force_01'] - game_log[str(i)+'_do']['x_force_01'],
+                         game_log[str(i)]['x_force_02'] - game_log[str(i)+'_do']['x_force_02'],
+                         game_log[str(i)]['x_force_03'] - game_log[str(i)+'_do']['x_force_03'],
+                         game_log[str(i)]['x_force_04'] - game_log[str(i)+'_do']['x_force_04'],
+                         game_log[str(i)]['x_force_05'] - game_log[str(i)+'_do']['x_force_05'],
+                         game_log[str(i)]['x_force_06'] - game_log[str(i)+'_do']['x_force_06']
+                         ]
+        if sum(i for i in x_force_to_do) > 0:
+            print('Playing account : ', str(i))
+            change_account(i)   # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
+            print('x_force : ', x_force_to_do)
+            log = x_force_v2(i, game_log)
+            print('Done : ', [log[str(i) + '_do']['x_force_01'],
+                              log[str(i) + '_do']['x_force_02'],
+                              log[str(i) + '_do']['x_force_03'],
+                              log[str(i) + '_do']['x_force_04'],
+                              log[str(i) + '_do']['x_force_05'],
+                              log[str(i) + '_do']['x_force_06'],
+                              ])
+            write_log(log)
+
+
+do_log()
+
 # test()
 # ehdgml7602()        # 한또르(홍미)
 # ehdgml7604()        # StarangeHee
@@ -431,18 +503,32 @@ def legendary_all_account():
 
 
 # change_account(1)   # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
-dimension_mission(10)
+# change_account_v2(1)   # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
+# dimension_mission(10)
 # x_force(0, 9, 0, 0)
 # first_family(0, 10, 0, 0, 0)
 
-# legendary_battle(1)     # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
+# legendary_battle(2, 5)     # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
 
 # dimension_mission_all_account()
-
+# time.sleep(random.uniform(2.71, 3.53))
 # first_family_all_account()
-
+# time.sleep(random.uniform(2.71, 3.53))
 # x_force_all_account()
+# time.sleep(random.uniform(2.71, 3.53))
 # rise_xman_all_account()
+# time.sleep(random.uniform(2.71, 3.53))
+
 # sorcerer_supreme_all_account()
+# time.sleep(random.uniform(2.71, 3.53))
+# dimension_mission_all_account()
 # legendary_all_account()
 # rise_xman(10, 10, 10, 10, 2, 2)     # 10, 10, 10, 10, 2, 2
+
+
+#
+# game_log[1]['dimension_mission'] = 10
+#
+# print(game_log)
+#
+# write_log(game_log, 'game_log.json')

@@ -1,4 +1,5 @@
 import pyautogui as pag
+import json
 import cv2
 from pytesseract import *
 from PIL import Image
@@ -135,6 +136,7 @@ def check_click_in(filename, region):
 
 
 def wait_click(filename, wait_before_min=0.3, wait_before_max=0.8, wait_after_min=0.1, wait_after_max=0.5, interval=1.0):
+    print('waiting for ', filename)
     while True:
         button = pag.locateOnScreen(os.path.join(button_path2, filename), grayscale=True, confidence=.9)
         if button is not None:
@@ -286,6 +288,81 @@ def change_account(account_num):
     # check_click('ok_button.jpg')
 
 
+def change_account_v2(account_num):
+
+    def enter_setting01(account_num):
+        file_to_change = 'setting_account_03_acc0' + str(account_num) + '.jpg'
+        check_click('setting_button.jpg')
+        time.sleep(random.uniform(0.91, 1.53))
+        check_click('setting_account.jpg')
+        time.sleep(random.uniform(0.91, 1.53))
+        check_click('setting_account_01.jpg')
+        time.sleep(random.uniform(0.91, 1.53))
+        check_click('setting_account_02.jpg')
+        time.sleep(random.uniform(4.91, 6.53))
+        wait_click(file_to_change, 4.91, 6.5, 0.1, 0.5, 0.5)
+        time.sleep(random.uniform(2.71, 3.53))
+        check_click('setting_account_04.jpg')
+        time.sleep(random.uniform(4.71, 5.53))
+        check_click('ok_button.jpg')
+        time.sleep(random.uniform(4.71, 5.53))
+        check_click('ok_button.jpg')
+        time.sleep(random.uniform(4.71, 5.53))
+        check_click('x_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('ok_button.jpg')
+        time.sleep(random.uniform(9.71, 12.53))
+        check_click('x_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('ok_button.jpg')
+
+    def enter_setting02(account_num):
+        file_to_change = 'setting_account_03_acc0' + str(account_num) + '.jpg'
+        wait_click('setting_button.jpg', 0.9, 1.5, 0.1, 0.5, 0.5)
+        wait_click('setting_account.jpg', 0.9, 1.5, 0.4, 0.9, 0.5)
+        wait_click('setting_account_01.jpg', 1.9, 2.5, 0.1, 0.5, 0.5)
+        wait_click('setting_account_02.jpg', 1.9, 2.5, 0.1, 0.5, 0.5)
+        wait_click(file_to_change, 4.91, 6.5, 0.1, 0.5, 0.5)
+        wait_click('setting_account_04.jpg', 2.71, 3.53, 0.1, 0.5, 0.5)
+        wait_click('ok_button.jpg', 4.71, 5.53, 0.1, 0.5, 0.5)
+        wait_click('ok_button.jpg', 4.71, 5.53, 0.1, 0.5, 0.5)
+        time.sleep(random.uniform(13.71, 16.53))
+        if pag.locateOnScreen('buttons(960x540)/x_button_01.jpg'):
+            wait_click('x_button_01.jpg', 0.71, 0.93, 0.1, 0.5, 0.5)
+            wait_click('ok_button.jpg', 1.71, 2.53, 0.1, 0.5, 0.5)
+        time.sleep(random.uniform(2.71, 3.53))
+        if pag.locateOnScreen('buttons(960x540)/x_button.jpg'):
+            wait_click('x_button.jpg', 0.71, 0.93, 0.1, 0.5, 0.5)
+            wait_click('ok_button.jpg', 1.71, 2.53, 0.1, 0.5, 0.5)
+        time.sleep(random.uniform(2.71, 3.53))
+        if pag.locateOnScreen('buttons(960x540)/x_button.jpg'):
+            wait_click('x_button.jpg', 9.71, 12.53, 0.1, 0.5, 0.5)
+            wait_click('ok_button.jpg', 1.71, 2.53, 0.1, 0.5, 0.5)
+
+    def check_current_account(account_num):
+        current_account = 0
+        if check_exist('Account01.jpg'):
+            current_account = 1
+        elif check_exist('Account02.jpg'):
+            current_account = 2
+        elif check_exist('Account03.jpg'):
+            current_account = 3
+        return True if account_num == current_account else False
+
+    if pag.locateOnScreen(os.path.join(button_path2, 'setting_button.jpg'), grayscale=True, confidence=.9):
+        print('setting button is identified')
+    else:
+        print('setting button is not identified, go to home')
+        go_home()
+
+    # print('current account is no need to change' if check_current_account(account_num) else 'change account start')
+    if check_current_account(account_num):
+        print('current account is no need to change')
+    else:
+        print('change account start')
+        enter_setting02(account_num)
+
+
 def iter_battle(cnt):
     # time.sleep(random.uniform(1, 1.5))
     for i in tqdm(range(cnt)):
@@ -293,7 +370,7 @@ def iter_battle(cnt):
         # pag.press('tab')
         # pag.keyUp('alt')
         pag.press('volumedown')
-        time.sleep(random.uniform(.2, 0.5))
+        time.sleep(random.uniform(0.4, 0.9))
         # pag.press('q')
         # print('iteration : ', i+1, ' / ', cnt)
         # 1'st 시도
@@ -307,7 +384,7 @@ def iter_battle(cnt):
         #     else:
         #         time.sleep(random.uniform(2, 3))
         # 2'nd 시도
-        wait_click('start_battle.jpg', 0.1, 0.5, 1.5, 2, 3)
+        wait_click('start_battle.jpg', 0.9, 1.7, 1.5, 2, 3)
         # if i < cnt:
         #     wait_click('reload_button.jpg', 0.1, 0.5, 0.5, 1, 1)
         # else:
@@ -320,10 +397,10 @@ def iter_battle(cnt):
                 time.sleep(random.uniform(2, 3))
                 if pag.locateOnScreen(os.path.join(button_path2, 'ok_button.jpg'), grayscale=True, confidence=.9):
                     check_click('ok_button.jpg')
-                    wait_click('reload_button.jpg', 0.4, 0.8, 0.5, 1, 2)
+                    wait_click('reload_button.jpg', 0.9, 1.4, 0.5, 1, 2)
                     break
                 else:
-                    wait_click('reload_button.jpg', 0.4, 0.8, 0.5, 1, 2)
+                    wait_click('reload_button.jpg', 0.9, 1.4, 0.5, 1, 2)
                     break
             else:
                 time.sleep(random.uniform(2, 3))
@@ -341,10 +418,11 @@ def iter_battle(cnt):
         #         time.sleep(random.uniform(2, 3))
     time.sleep(random.uniform(2.5, 3))
     print('end iteration')
+    return cnt
 
 
 # 직접 좌표 지정 사용 중이므로 고쳐야 함
-def legendary_battle(account):
+def legendary_battle(account, cnt=5):
     print('Starting Legendary Battle')
 
     go_home()    # go to home if not home
@@ -356,7 +434,7 @@ def legendary_battle(account):
     if account == 1:
         check_click('legendary_01_03.jpg')              # 캡틴 마블
         wait_click('legendary_02.jpg', 0.1, 0.5, 1, 2, 1)   # 노멀
-        for i in range(5):
+        for i in range(cnt):
             check_click_in('enter_button.jpg',
                            pag.locateOnScreen(os.path.join(button_path2, 'legendary_01_03_01.jpg')))
             # sleep_click_v2(135, 778, 491, 851, 3.01, 4.23)  # 입장
@@ -383,7 +461,7 @@ def legendary_battle(account):
         time.sleep(random.uniform(1.71, 2.53))
         check_click('legendary_01_06.jpg')              # 캡틴 마블
         wait_click('legendary_02.jpg', 0.1, 0.5, 1, 2, 1)   # 노멀
-        for i in tqdm(range(5)):
+        for i in tqdm(range(cnt)):
             check_click_in('enter_button.jpg',
                            pag.locateOnScreen(os.path.join(button_path2, 'legendary_01_06_01.jpg')))
             # sleep_click_v2(135, 778, 491, 851, 3.01, 4.23)  # 입장
@@ -433,6 +511,8 @@ def dimension_mission(num):
 
     print('end dimension_mission')
     time.sleep(random.uniform(2.71, 3.53))
+
+    return num
 
 
 def sorcerer_supreme(cnt1=3, cnt2=3):
@@ -501,6 +581,72 @@ def sorcerer_supreme(cnt1=3, cnt2=3):
         pass
     time.sleep(random.uniform(2.71, 3.53))
     print('end sorcerer_supreme')
+
+
+def first_family_v2(i, game_log):
+    cnt1 = game_log[str(i)]['first_family_01'] - game_log[str(i) + '_do']['first_family_01']
+    cnt2 = game_log[str(i)]['first_family_02'] - game_log[str(i) + '_do']['first_family_02']
+    cnt3 = game_log[str(i)]['first_family_03'] - game_log[str(i) + '_do']['first_family_03']
+    cnt4 = game_log[str(i)]['first_family_04'] - game_log[str(i) + '_do']['first_family_04']
+    cnt5 = game_log[str(i)]['first_family_05'] - game_log[str(i) + '_do']['first_family_05']
+    cnt6 = game_log[str(i)]['first_family_06'] - game_log[str(i) + '_do']['first_family_06']
+    print('Starting First Family')
+    go_home()
+
+    wait_click('enter_battle.jpg')
+    wait_click('epic_quest.jpg')
+    wait_click('first_family.jpg')
+
+    def first_falimy_iter(but1, but2, but3, cnt):
+        wait_click(but1)  # 사이좋은 형제
+        wait_click(but2)  # 사이좋은 형제
+        if but3 is not None:
+            check_click_in('battle.jpg', pag.locateOnScreen(os.path.join(button_path2, but3)))
+            time.sleep(random.uniform(1, 1.5))
+        else:
+            pass
+        iter_battle(cnt)
+        time.sleep(random.uniform(2.71, 3.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(0.71, 1.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(0.71, 1.53))
+        return cnt
+
+    if cnt1 > 0:
+        game_log[str(i) + '_do']['first_family_01'] = first_falimy_iter('first_family_01.jpg', 'first_family_01_01.jpg', 'first_family_01_01_04.jpg', cnt1)
+    if cnt2 > 0:
+        game_log[str(i) + '_do']['first_family_02'] = first_falimy_iter('first_family_01.jpg', 'first_family_01_02.jpg', 'first_family_01_02_04.jpg', cnt2)
+    if cnt3 > 0:
+        wait_click('first_family_02.jpg')  # 뉴 페이스
+        wait_click('first_family_02_01.jpg')  # 인휴먼 공주
+        game_log[str(i) + '_do']['first_family_03'] = iter_battle(cnt3)
+        time.sleep(random.uniform(2.71, 3.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(0.71, 1.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(0.71, 1.53))
+    if cnt4 > 0:
+        wait_click('first_family_02.jpg')  # 뉴 페이스
+        wait_click('first_family_02_02.jpg')  # 사나운 초록색
+        game_log[str(i) + '_do']['first_family_04'] = iter_battle(cnt4)
+        time.sleep(random.uniform(2.71, 3.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(0.71, 1.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(0.71, 1.53))
+    if cnt5 > 0:
+        wait_click('first_family_03.jpg')  # 뉴 페이스
+        wait_click('first_family_03_01.jpg')  # 라트베리아
+        game_log[str(i) + '_do']['first_family_05'] = iter_battle(cnt5)
+        time.sleep(random.uniform(0.71, 1.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(0.71, 1.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(0.71, 1.53))
+    time.sleep(random.uniform(2.71, 3.53))
+    print('end first_family')
+    return game_log
 
 
 def first_family(cnt1=10, cnt2=10, cnt3=3, cnt4=3, cnt5=3):
@@ -587,6 +733,54 @@ def first_family(cnt1=10, cnt2=10, cnt3=3, cnt4=3, cnt5=3):
         time.sleep(random.uniform(0.71, 1.53))
     time.sleep(random.uniform(2.71, 3.53))
     print('end first_family')
+
+
+def x_force_v2(i, game_log):
+    cnt1 = game_log[str(i)]['x_force_01'] - game_log[str(i) + '_do']['x_force_01']
+    cnt2 = game_log[str(i)]['x_force_02'] - game_log[str(i) + '_do']['x_force_02']
+    cnt3 = game_log[str(i)]['x_force_03'] - game_log[str(i) + '_do']['x_force_03']
+    cnt4 = game_log[str(i)]['x_force_04'] - game_log[str(i) + '_do']['x_force_04']
+    cnt5 = game_log[str(i)]['x_force_05'] - game_log[str(i) + '_do']['x_force_05']
+    cnt6 = game_log[str(i)]['x_force_06'] - game_log[str(i) + '_do']['x_force_06']
+    print('Starting X Force')
+    go_home()
+
+    wait_click('enter_battle.jpg')
+    wait_click('epic_quest.jpg')
+
+    wait_click('x_force.jpg')
+
+    def x_force_iter(but1, but2, but3, cnt):
+        wait_click(but1)  # 엉망인 친구들
+        wait_click(but2)  # 이런 세상에
+
+        if but3 is not None:
+            check_click_in('battle.jpg', pag.locateOnScreen(os.path.join(button_path2, but3)))
+        else:
+            pass
+        iter_battle(cnt)
+        time.sleep(random.uniform(2.71, 3.53))
+
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(0.71, 1.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(0.71, 1.53))
+        return cnt
+
+    if cnt1 > 0:
+        game_log[str(i) + '_do']['x_force_01'] = x_force_iter('x_force_01.jpg', 'x_force_01_01.jpg', 'x_force_01_01_04.jpg', cnt1)
+    if cnt2 > 0:
+        game_log[str(i) + '_do']['x_force_02'] = x_force_iter('x_force_01.jpg', 'x_force_01_02.jpg', 'x_force_01_02_04.jpg', cnt2)
+    if cnt3 > 0:
+        game_log[str(i) + '_do']['x_force_03'] = x_force_iter('x_force_02.jpg', 'x_force_02_01.jpg', None, cnt3)
+    if cnt4 > 0:
+        game_log[str(i) + '_do']['x_force_04'] = x_force_iter('x_force_02.jpg', 'x_force_02_02.jpg', None, cnt4)
+    if cnt5 > 0:    # 케이블 자르기
+        game_log[str(i) + '_do']['x_force_05'] = x_force_iter('x_force_03.jpg', 'x_force_03_01.jpg', None, cnt5)
+
+    time.sleep(random.uniform(2.71, 3.53))
+    print('end x_force')
+    return game_log
 
 
 def x_force(cnt1=10, cnt2=10, cnt3=3, cnt4=3, cnt5=3):
@@ -788,11 +982,18 @@ def rise_xman(cnt1=10, cnt2=10, cnt3=10, cnt4=10, cnt5=2, cnt6=2):
 '''
 
 
-def load_log(file='game_log.pickle'):
+def load_log(file='game_log.json'):
     last_modified = os.path.getctime(file) if os.path.exists(file) else -1
-    if time.gmtime(time.time()).tm_yday == last_modified:
-        game_log = pickle.load(open(file, 'rb'))
+    print('last modified date is ', time.gmtime(last_modified).tm_yday, 'today is ', time.gmtime(time.time()).tm_yday)
+    # print(time.time())
+    if time.gmtime(time.time()).tm_yday == time.gmtime(last_modified).tm_yday:
+        # game_log = pickle.load(open(file, 'rb'))
+        # game_log = json.load(file)
+        log_file = open(file)
+        game_log = json.load(log_file)
+        print('Game Log is loaded successfully')
     else:
+        print('Game Log is initiated')
         game_log = {'max': {'dimension_mission': 10,
                             'first_family_01': 10, 'first_family_02': 10, 'first_family_03': 3, 'first_family_04': 3,
                             'first_family_05': 3, 'first_family_06': 3,
@@ -815,8 +1016,8 @@ def load_log(file='game_log.pickle'):
                         'rise_xman_01': 10, 'rise_xman_02': 10, 'rise_xman_03': 10, 'rise_xman_04': 10,
                         'rise_xman_05': 2, 'rise_xman_06': 2},
                     3: {'dimension_mission': 10,
-                        'first_family_01': 10, 'first_family_02': 0, 'first_family_03': 3, 'first_family_04': 3,
-                        'first_family_05': 0, 'first_family_06': 0,
+                        'first_family_01': 10, 'first_family_02': 10, 'first_family_03': 3, 'first_family_04': 3,
+                        'first_family_05': 3, 'first_family_06': 0,
                         'x_force_01': 10, 'x_force_02': 0, 'x_force_03': 3, 'x_force_04': 0,
                         'x_force_05': 0, 'x_force_06': 0,
                         'rise_xman_01': 10, 'rise_xman_02': 10, 'rise_xman_03': 10, 'rise_xman_04': 10,
@@ -845,6 +1046,12 @@ def load_log(file='game_log.pickle'):
                     }
     # print('game_log: ', game_log)
     return game_log
+
+
+def write_log(data, file='game_log.json'):
+    print('starting json writing')
+    with open(file, 'w', encoding='utf-8') as json_file:
+        json.dump(data, json_file)
 
 
 """
