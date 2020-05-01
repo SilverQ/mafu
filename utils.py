@@ -96,9 +96,9 @@ def go_home():
 def mouse_click(pos_x, pos_y):
     x, y = pag.position()
     pag.moveTo(pos_x, pos_y)
+    # pag.doubleClick(pos_x, pos_y)
     pag.mouseDown()
-    # time.sleep(random.uniform(1.01, 2.23))
-    time.sleep(random.uniform(0.21, 0.43))
+    time.sleep(random.uniform(0.21, 0.53))
     pag.mouseUp()
     pag.moveTo(x, y)
 
@@ -145,10 +145,13 @@ def wait_click(filename, wait_before_min=0.3, wait_before_max=0.8, wait_after_mi
                 # print(os.path.join(button_path2, filename), button)
                 mouse_click(button[0] + button[2] / 2 + random.uniform(0, button[2] * 0.3),
                             button[1] + button[3] / 2 + random.uniform(0, button[3] * 0.3))
+                # time.sleep(random.uniform(0.2, 0.5))
+                # mouse_click(button[0] + button[2] / 2 + random.uniform(0, button[2] * 0.3),
+                #             button[1] + button[3] / 2 + random.uniform(0, button[3] * 0.3))
             finally:
-                pass
-            time.sleep(random.uniform(wait_after_min, wait_after_max))
-            if pag.locateOnScreen(os.path.join(button_path2, filename), grayscale=True, confidence=.9) is None:
+                time.sleep(random.uniform(wait_after_min, wait_after_max))
+                # pass
+            # if button is None:
                 break
         else:
             time.sleep(random.uniform(interval/2, interval))
@@ -213,6 +216,46 @@ def change_account(account_num):
         time.sleep(random.uniform(1.71, 2.53))
         check_click('ok_button.jpg')
 
+    def enter_setting03():
+        wait_click('setting_button.jpg', 0.9, 1.5, 2.1, 2.5, 0.5)
+
+        if check_exist('setting_account.jpg'):
+            print('Select Account Tab')
+            wait_click('setting_account.jpg', 0.1, 0.5, 0.4, 0.9, 0.5)
+        elif check_exist('setting_account2.jpg'):
+            print('Current Tab is Account')
+
+        time.sleep(random.uniform(2.71, 3.53))
+
+        if check_exist('setting_account_02.jpg'):
+            print('Account is not connected to Google Play')
+            wait_click('setting_account_02.jpg', 0.9, 1.5, 4.1, 5.5, 0.5)
+        elif check_exist('setting_account_01.jpg'):
+            print('Account is connected to Google Play')
+            wait_click('setting_account_01.jpg', 0.9, 1.5, 0.1, 0.5, 0.5)
+            wait_click('setting_account_02.jpg', 0.9, 1.5, 4.1, 5.5, 0.5)
+
+        time.sleep(random.uniform(4.71, 5.53))
+        if check_exist(file_to_change):
+            wait_click(file_to_change, 4.91, 6.5, 0.1, 0.5, 0.5)
+        elif check_exist('setting_account_done.jpg'):
+            wait_click('ok_button.jpg', 4.91, 6.5, 0.1, 0.5, 0.5)
+            wait_click('ok_button.jpg', 4.91, 6.5, 0.1, 0.5, 0.5)
+            return True
+
+        wait_click('setting_account_04.jpg', 4.91, 6.5, 0.1, 0.5, 0.5)
+        wait_click('ok_button.jpg', 4.91, 6.5, 4.71, 5.53, 0.5)
+        wait_click('ok_button.jpg')
+        time.sleep(random.uniform(4.71, 5.53))
+        check_click('x_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('ok_button.jpg')
+        time.sleep(random.uniform(9.71, 12.53))
+        check_click('x_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('ok_button.jpg')
+        return False
+
     def check_current_account(account_num):
         current_account = 0
         if check_exist('Account01.jpg'):
@@ -234,8 +277,12 @@ def change_account(account_num):
         print('current account is no need to change')
     else:
         print('change account start')
-        enter_setting01()
-
+        # enter_setting02()
+        while True:
+            change_acc = enter_setting03()
+            if change_acc is False:
+                break
+        pass
     # print(file_to_check, file_to_change)
 
     # enter_setting01()
@@ -334,9 +381,9 @@ def change_account_v2(account_num):
         if pag.locateOnScreen('buttons(960x540)/x_button.jpg'):
             wait_click('x_button.jpg', 0.71, 0.93, 0.1, 0.5, 0.5)
             wait_click('ok_button.jpg', 1.71, 2.53, 0.1, 0.5, 0.5)
-        time.sleep(random.uniform(2.71, 3.53))
+        time.sleep(random.uniform(9.71, 12.53))
         if pag.locateOnScreen('buttons(960x540)/x_button.jpg'):
-            wait_click('x_button.jpg', 9.71, 12.53, 0.1, 0.5, 0.5)
+            wait_click('x_button.jpg', 0.71, 0.93, 0.1, 0.5, 0.5)
             wait_click('ok_button.jpg', 1.71, 2.53, 0.1, 0.5, 0.5)
 
     def check_current_account(account_num):
@@ -361,9 +408,37 @@ def change_account_v2(account_num):
     else:
         print('change account start')
         enter_setting02(account_num)
+        # while True:
+        # if enter_setting02(account_num):
+        #     break
 
 
 def iter_battle(cnt):
+    # 전투가 시작됐는데 리로드를 대기하지 않고 계속 전투시작 버튼을 기다리는걸 해결하기 위해
+    # 만들어봤는데, iter_battle_v2로 만들었다가 기존의 iter_battle랑 이름을 바꿔치기함
+    for i in tqdm(range(cnt)):
+        pag.press('volumedown')
+        time.sleep(random.uniform(1.3, 2.1))
+        wait_click('start_battle.jpg', 1.9, 2.6, 2.7, 3.3, 3)
+        print('Now, waiting for the end of the ', i+1, "'th battle")
+        while True:
+            if pag.locateOnScreen(os.path.join(button_path2, 'reload_button.jpg'), grayscale=True, confidence=.9):
+                time.sleep(random.uniform(2, 3))
+                if pag.locateOnScreen(os.path.join(button_path2, 'ok_button.jpg'), grayscale=True, confidence=.9):
+                    check_click('ok_button.jpg')
+                    wait_click('reload_button.jpg', 0.9, 1.4, 0.9, 1.3, 2)
+                    break
+                else:
+                    wait_click('reload_button.jpg', 0.9, 1.4, 0.9, 1.3, 2)
+                    break
+            else:
+                time.sleep(random.uniform(2, 3))
+    time.sleep(random.uniform(2.5, 3))
+    print('end iteration')
+    return cnt
+
+
+def iter_battle_v2(cnt):
     # time.sleep(random.uniform(1, 1.5))
     for i in tqdm(range(cnt)):
         # pag.keyDown('alt')
@@ -428,25 +503,17 @@ def legendary_battle(account, cnt=5):
     go_home()    # go to home if not home
     wait_click('enter_battle.jpg', 0.1, 0.5, 0, 0, 1)
     wait_click('mission_02.jpg', 0.1, 0.5, 0, 0, 1)     # 도전
-    wait_click('legendary_battle.jpg', 0.1, 0.5, 0, 0, 1)     # 레전더리 배틀
-    # sleep_click_v2(68, 329, 464, 916, 2.01, 3.23)       # 레전더리 배틀
-    time.sleep(random.uniform(2.71, 3.53))
+    wait_click('legendary_battle.jpg', 0.1, 0.5, 0.5, 1, 1)     # 레전더리 배틀
     if account == 1:
         check_click('legendary_01_03.jpg')              # 캡틴 마블
         wait_click('legendary_02.jpg', 0.1, 0.5, 1, 2, 1)   # 노멀
         for i in range(cnt):
             check_click_in('enter_button.jpg',
                            pag.locateOnScreen(os.path.join(button_path2, 'legendary_01_03_01.jpg')))
-            # sleep_click_v2(135, 778, 491, 851, 3.01, 4.23)  # 입장
             wait_click('legendary_03.jpg', 0.1, 0.5, 1, 2, 1)   # 전투 시작
             wait_click('pass_over.jpg', 0.1, 0.5, 0, 0, 1)      # 건너 뛰기
             wait_click('reload_button.jpg', 0.1, 0.5, 0, 0, 1)
-        # x, 135, y: 778
-        # x, 491, y: 851
     elif account == 3 or account == 2:
-        # pag.moveTo(random.uniform(234, 245), random.uniform(800, 889))
-        # pag.dragTo(random.uniform(234, 245), random.uniform(294, 330),
-        #            random.uniform(0.7, 1.2), button='left')
         drag_from = pag.locateOnScreen(os.path.join('buttons(960x540)/', 'legendary_01_04.jpg'),
                                        grayscale=True, confidence=.9)
         drag_to = pag.locateOnScreen(os.path.join('buttons(960x540)/', 'legendary_01_01.jpg'),
@@ -455,16 +522,16 @@ def legendary_battle(account, cnt=5):
                    random.uniform(drag_from[1], drag_from[1]+drag_from[3]))
         pag.dragTo(random.uniform(drag_to[0], drag_to[0]+drag_to[2]), random.uniform(drag_to[1], drag_to[1]+drag_to[3]),
                    random.uniform(0.7, 1.2), button='left')
-
-# x, 234, y: 889
-# x, 245, y: 294
+        pag.moveTo(random.uniform(drag_from[0], drag_from[0]+drag_from[2]),
+                   random.uniform(drag_from[1], drag_from[1]+drag_from[3]))
+        pag.dragTo(random.uniform(drag_to[0], drag_to[0]+drag_to[2]), random.uniform(drag_to[1], drag_to[1]+drag_to[3]),
+                   random.uniform(0.7, 1.2), button='left')
+        wait_click('legendary_01_06.jpg', 1.4, 1.8, 1, 2, 1)              # 캡틴 마블
         time.sleep(random.uniform(1.71, 2.53))
-        check_click('legendary_01_06.jpg')              # 캡틴 마블
         wait_click('legendary_02.jpg', 0.1, 0.5, 1, 2, 1)   # 노멀
         for i in tqdm(range(cnt)):
             check_click_in('enter_button.jpg',
                            pag.locateOnScreen(os.path.join(button_path2, 'legendary_01_06_01.jpg')))
-            # sleep_click_v2(135, 778, 491, 851, 3.01, 4.23)  # 입장
             wait_click('legendary_03.jpg', 0.1, 0.5, 1, 2, 1)   # 전투 시작
             wait_click('pass_over.jpg', 0.1, 0.5, 0, 0, 1)      # 건너 뛰기
             wait_click('reload_button.jpg', 0.1, 0.5, 1, 2, 1)
@@ -488,12 +555,9 @@ def dimension_mission(num):
     check_click_v2('ok_button.jpg')
 
     for i in tqdm(range(num)):
-        # print('iteration : ', i+1, ' / ', num)
-        # sleep_click(930, 986, 250, 70, 3.01, 4.23)        # ready_battle
         wait_click('ready_battle.jpg', 0.1, 0.5, 0.5, 1, 1)
-        # sleep_click(1618, 977, 300, 70, 2.01, 3.23)        # start_battle
-        check_click_v2('start_battle.jpg')
-
+        wait_click('start_battle.jpg', 2.1, 3.5, 0.5, 1, 1)
+        # check_click_v2('start_battle.jpg')
         # time.sleep(random.uniform(2.01, 3.23))
         # check_click('not_use_button.jpg')        # "not_use_button.jpg"
         wait_click('not_use_button.jpg', 0.1, 0.5, 0, 0, 1)
@@ -513,6 +577,54 @@ def dimension_mission(num):
     time.sleep(random.uniform(2.71, 3.53))
 
     return num
+
+
+def sorcerer_supreme_v2(i, game_log):
+    cnt1 = game_log[str(i)]['sorcerer_supreme_01'] - game_log[str(i) + '_do']['sorcerer_supreme_01']
+    cnt2 = game_log[str(i)]['sorcerer_supreme_02'] - game_log[str(i) + '_do']['sorcerer_supreme_02']
+    print('Starting Sorcerer Supreme')
+    go_home()
+
+    wait_click('enter_battle.jpg')
+    wait_click('epic_quest.jpg')
+    wait_click('sorcerer_supreme.jpg')
+
+    if True:
+        wait_click('sorcerer_supreme_01.jpg')  # 회상 임무
+        time.sleep(random.uniform(0.71, 1.53))
+        wait_click('sorcerer_supreme_01_04.jpg')  # 어둠의 힘
+        time.sleep(random.uniform(0.71, 1.53))
+        drag_from = pag.locateOnScreen(os.path.join('buttons(960x540)/', 'sorcerer_supreme_01_04_04.jpg'),
+                                       grayscale=True, confidence=.99)
+        drag_to = pag.locateOnScreen(os.path.join('buttons(960x540)/', 'sorcerer_supreme_01_04_01.jpg'),
+                                     grayscale=True, confidence=.99)
+        pag.moveTo(random.uniform(drag_from[0], drag_from[0]+drag_from[2]*0.5),
+                   random.uniform(drag_from[1], drag_from[1]+drag_from[3]))
+        pag.dragTo(random.uniform(drag_to[0], drag_to[0]+drag_to[2]*0.5),
+                   random.uniform(drag_to[1], drag_to[1]+drag_to[3]),
+                   random.uniform(0.7, 1.2), button='left')
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click_in('battle.jpg',
+                       pag.locateOnScreen(os.path.join(button_path2, 'sorcerer_supreme_01_04_06.jpg')))
+        iter_battle(cnt1)
+        time.sleep(random.uniform(3.71, 4.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(0.71, 1.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(0.71, 1.53))
+    if cnt2 > 0:
+        check_click_v2('sorcerer_supreme_02.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        if pag.locateOnScreen(os.path.join(button_path2, 'sorcerer_supreme_02_02.jpg'), grayscale=True, confidence=.9):
+            check_click_v2('sorcerer_supreme_02_02.jpg')  # 회상 임무
+        else:
+            check_click_v2('sorcerer_supreme_02_01.jpg')  # 회상 임무
+        time.sleep(random.uniform(3.71, 4.53))
+        iter_battle(cnt2)
+        time.sleep(random.uniform(3.71, 4.53))
+    time.sleep(random.uniform(2.71, 3.53))
+    print('end sorcerer_supreme')
+    return game_log
 
 
 def sorcerer_supreme(cnt1=3, cnt2=3):
@@ -584,69 +696,84 @@ def sorcerer_supreme(cnt1=3, cnt2=3):
 
 
 def first_family_v2(i, game_log):
-    cnt1 = game_log[str(i)]['first_family_01'] - game_log[str(i) + '_do']['first_family_01']
-    cnt2 = game_log[str(i)]['first_family_02'] - game_log[str(i) + '_do']['first_family_02']
-    cnt3 = game_log[str(i)]['first_family_03'] - game_log[str(i) + '_do']['first_family_03']
-    cnt4 = game_log[str(i)]['first_family_04'] - game_log[str(i) + '_do']['first_family_04']
-    cnt5 = game_log[str(i)]['first_family_05'] - game_log[str(i) + '_do']['first_family_05']
-    cnt6 = game_log[str(i)]['first_family_06'] - game_log[str(i) + '_do']['first_family_06']
-    print('Starting First Family')
-    go_home()
+    first_to_do = [game_log[str(i)]['first_family_01'] - game_log[str(i) + '_do']['first_family_01'],
+                   game_log[str(i)]['first_family_02'] - game_log[str(i) + '_do']['first_family_02'],
+                   game_log[str(i)]['first_family_03'] - game_log[str(i) + '_do']['first_family_03'],
+                   game_log[str(i)]['first_family_04'] - game_log[str(i) + '_do']['first_family_04'],
+                   game_log[str(i)]['first_family_05'] - game_log[str(i) + '_do']['first_family_05'],
+                   game_log[str(i)]['first_family_06'] - game_log[str(i) + '_do']['first_family_06']
+                   ]
+    if sum(i for i in first_to_do) > 0:
+        print('Starting First Family: ', first_to_do)
+        go_home()
 
-    wait_click('enter_battle.jpg')
-    wait_click('epic_quest.jpg')
-    wait_click('first_family.jpg')
+        wait_click('enter_battle.jpg')
+        wait_click('epic_quest.jpg')
+        wait_click('first_family.jpg')
 
-    def first_falimy_iter(but1, but2, but3, cnt):
-        wait_click(but1)  # 사이좋은 형제
-        wait_click(but2)  # 사이좋은 형제
-        if but3 is not None:
-            check_click_in('battle.jpg', pag.locateOnScreen(os.path.join(button_path2, but3)))
-            time.sleep(random.uniform(1, 1.5))
-        else:
-            pass
-        iter_battle(cnt)
-        time.sleep(random.uniform(2.71, 3.53))
-        check_click('back_button.jpg')
-        time.sleep(random.uniform(0.71, 1.53))
-        check_click('back_button.jpg')
-        time.sleep(random.uniform(0.71, 1.53))
-        return cnt
+        def first_falimy_iter(but1, but2, but3, cnt):
+            wait_click(but1)  # 사이좋은 형제
+            wait_click(but2)  # 사이좋은 형제
+            if but3 is not None:
+                check_click_in('battle.jpg', pag.locateOnScreen(os.path.join(button_path2, but3)))
+                time.sleep(random.uniform(1, 1.5))
+            else:
+                pass
+            iter_battle(cnt)
+            time.sleep(random.uniform(2.71, 3.53))
+            check_click('back_button.jpg')
+            time.sleep(random.uniform(0.71, 1.53))
+            check_click('back_button.jpg')
+            time.sleep(random.uniform(0.71, 1.53))
+            return cnt
 
-    if cnt1 > 0:
-        game_log[str(i) + '_do']['first_family_01'] = first_falimy_iter('first_family_01.jpg', 'first_family_01_01.jpg', 'first_family_01_01_04.jpg', cnt1)
-    if cnt2 > 0:
-        game_log[str(i) + '_do']['first_family_02'] = first_falimy_iter('first_family_01.jpg', 'first_family_01_02.jpg', 'first_family_01_02_04.jpg', cnt2)
-    if cnt3 > 0:
-        wait_click('first_family_02.jpg')  # 뉴 페이스
-        wait_click('first_family_02_01.jpg')  # 인휴먼 공주
-        game_log[str(i) + '_do']['first_family_03'] = iter_battle(cnt3)
+        if first_to_do[0] > 0:
+            game_log[str(i) + '_do']['first_family_01'] = first_falimy_iter('first_family_01.jpg',
+                                                                            'first_family_01_01.jpg',
+                                                                            'first_family_01_01_04.jpg',
+                                                                            first_to_do[0])
+            write_log(game_log)
+        if first_to_do[1] > 0:
+            game_log[str(i) + '_do']['first_family_02'] = first_falimy_iter('first_family_01.jpg',
+                                                                            'first_family_01_02.jpg',
+                                                                            'first_family_01_02_04.jpg',
+                                                                            first_to_do[1])
+            write_log(game_log)
+        if first_to_do[2] > 0:
+            wait_click('first_family_02.jpg')  # 뉴 페이스
+            wait_click('first_family_02_01.jpg')  # 인휴먼 공주
+            game_log[str(i) + '_do']['first_family_03'] = iter_battle(first_to_do[2])
+            time.sleep(random.uniform(2.71, 3.53))
+            check_click('back_button.jpg')
+            time.sleep(random.uniform(0.71, 1.53))
+            check_click('back_button.jpg')
+            time.sleep(random.uniform(0.71, 1.53))
+            write_log(game_log)
+        if first_to_do[3] > 0:
+            wait_click('first_family_02.jpg')  # 뉴 페이스
+            wait_click('first_family_02_02.jpg')  # 사나운 초록색
+            game_log[str(i) + '_do']['first_family_04'] = iter_battle(first_to_do[3])
+            time.sleep(random.uniform(2.71, 3.53))
+            check_click('back_button.jpg')
+            time.sleep(random.uniform(0.71, 1.53))
+            check_click('back_button.jpg')
+            time.sleep(random.uniform(0.71, 1.53))
+            write_log(game_log)
+        if first_to_do[4] > 0:
+            wait_click('first_family_03.jpg')  # 뉴 페이스
+            wait_click('first_family_03_01.jpg')  # 라트베리아
+            game_log[str(i) + '_do']['first_family_05'] = iter_battle(first_to_do[4])
+            time.sleep(random.uniform(0.71, 1.53))
+            check_click('back_button.jpg')
+            time.sleep(random.uniform(0.71, 1.53))
+            check_click('back_button.jpg')
+            time.sleep(random.uniform(0.71, 1.53))
+            write_log(game_log)
         time.sleep(random.uniform(2.71, 3.53))
-        check_click('back_button.jpg')
-        time.sleep(random.uniform(0.71, 1.53))
-        check_click('back_button.jpg')
-        time.sleep(random.uniform(0.71, 1.53))
-    if cnt4 > 0:
-        wait_click('first_family_02.jpg')  # 뉴 페이스
-        wait_click('first_family_02_02.jpg')  # 사나운 초록색
-        game_log[str(i) + '_do']['first_family_04'] = iter_battle(cnt4)
-        time.sleep(random.uniform(2.71, 3.53))
-        check_click('back_button.jpg')
-        time.sleep(random.uniform(0.71, 1.53))
-        check_click('back_button.jpg')
-        time.sleep(random.uniform(0.71, 1.53))
-    if cnt5 > 0:
-        wait_click('first_family_03.jpg')  # 뉴 페이스
-        wait_click('first_family_03_01.jpg')  # 라트베리아
-        game_log[str(i) + '_do']['first_family_05'] = iter_battle(cnt5)
-        time.sleep(random.uniform(0.71, 1.53))
-        check_click('back_button.jpg')
-        time.sleep(random.uniform(0.71, 1.53))
-        check_click('back_button.jpg')
-        time.sleep(random.uniform(0.71, 1.53))
-    time.sleep(random.uniform(2.71, 3.53))
-    print('end first_family')
-    return game_log
+        print('end first_family')
+        return game_log
+    else:
+        pass
 
 
 def first_family(cnt1=10, cnt2=10, cnt3=3, cnt4=3, cnt5=3):
@@ -769,14 +896,19 @@ def x_force_v2(i, game_log):
 
     if cnt1 > 0:
         game_log[str(i) + '_do']['x_force_01'] = x_force_iter('x_force_01.jpg', 'x_force_01_01.jpg', 'x_force_01_01_04.jpg', cnt1)
+        write_log(game_log)
     if cnt2 > 0:
         game_log[str(i) + '_do']['x_force_02'] = x_force_iter('x_force_01.jpg', 'x_force_01_02.jpg', 'x_force_01_02_04.jpg', cnt2)
+        write_log(game_log)
     if cnt3 > 0:
         game_log[str(i) + '_do']['x_force_03'] = x_force_iter('x_force_02.jpg', 'x_force_02_01.jpg', None, cnt3)
+        write_log(game_log)
     if cnt4 > 0:
         game_log[str(i) + '_do']['x_force_04'] = x_force_iter('x_force_02.jpg', 'x_force_02_02.jpg', None, cnt4)
+        write_log(game_log)
     if cnt5 > 0:    # 케이블 자르기
         game_log[str(i) + '_do']['x_force_05'] = x_force_iter('x_force_03.jpg', 'x_force_03_01.jpg', None, cnt5)
+        write_log(game_log)
 
     time.sleep(random.uniform(2.71, 3.53))
     print('end x_force')
@@ -851,6 +983,131 @@ def x_force(cnt1=10, cnt2=10, cnt3=3, cnt4=3, cnt5=3):
 
     time.sleep(random.uniform(2.71, 3.53))
     print('end x_force')
+
+
+def rise_xman_v2(i, game_log):
+    cnt1 = game_log[str(i)]['rise_xman_01'] - game_log[str(i) + '_do']['rise_xman_01']
+    cnt2 = game_log[str(i)]['rise_xman_02'] - game_log[str(i) + '_do']['rise_xman_02']
+    cnt3 = game_log[str(i)]['rise_xman_03'] - game_log[str(i) + '_do']['rise_xman_03']
+    cnt4 = game_log[str(i)]['rise_xman_04'] - game_log[str(i) + '_do']['rise_xman_04']
+    cnt5 = game_log[str(i)]['rise_xman_05'] - game_log[str(i) + '_do']['rise_xman_05']
+    cnt6 = game_log[str(i)]['rise_xman_06'] - game_log[str(i) + '_do']['rise_xman_06']
+    cnt7 = game_log[str(i)]['rise_xman_07'] - game_log[str(i) + '_do']['rise_xman_07']
+    print('Starting Rise X man')
+    go_home()
+
+    wait_click('enter_battle.jpg')
+    wait_click('epic_quest.jpg')
+    wait_click('rise_xman.jpg')    # select_mission
+
+    def rise_xman_iter(but1, but2, but3, cnt):
+        wait_click(but1)  # chasing
+        time.sleep(random.uniform(1.01, 1.53))
+        wait_click(but2)
+        if but3 is not None:
+            check_click_in('battle.jpg', pag.locateOnScreen(os.path.join(button_path2, but3)))
+        iter_battle(cnt)
+        time.sleep(random.uniform(2.71, 3.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('back_button.jpg')
+        return cnt
+
+    if cnt1 > 0:
+        game_log[str(i) + '_do']['rise_xman_01'] = rise_xman_iter('rise_xman_01.jpg', 'rise_xman_01_01.jpg',
+                                                                  'rise_xman_01_01_04.jpg', cnt1)
+        write_log(game_log)
+    #     wait_click('rise_xman_01.jpg')  # chasing
+    #     time.sleep(random.uniform(1.01, 1.53))
+    #     wait_click('rise_xman_01_01.jpg')
+    #     check_click_in('battle.jpg', pag.locateOnScreen(os.path.join(button_path2, 'rise_xman_01_01_04.jpg')))
+    #     iter_battle(cnt1)
+    #     time.sleep(random.uniform(2.71, 3.53))
+    #     check_click('back_button.jpg')
+    #     time.sleep(random.uniform(1.71, 2.53))
+    #     check_click('back_button.jpg')
+    if cnt2 > 0:
+        game_log[str(i) + '_do']['rise_xman_02'] = rise_xman_iter('rise_xman_01.jpg', 'rise_xman_01_02.jpg',
+                                                                  'rise_xman_01_02_04.jpg', cnt2)
+        write_log(game_log)
+        # wait_click('rise_xman_01.jpg')  # chasing
+        # time.sleep(random.uniform(1.01, 1.53))
+        # wait_click('rise_xman_01_02.jpg')
+        # check_click_in('battle.jpg', pag.locateOnScreen(os.path.join(button_path2, 'rise_xman_01_02_04.jpg')))
+        # iter_battle(cnt2)
+        # time.sleep(random.uniform(2.71, 3.53))
+        # check_click('back_button.jpg')
+        # time.sleep(random.uniform(1.71, 2.53))
+        # check_click('back_button.jpg')
+    if cnt3 > 0:
+        game_log[str(i) + '_do']['rise_xman_03'] = rise_xman_iter('rise_xman_01.jpg', 'rise_xman_01_03.jpg',
+                                                                  'rise_xman_01_03_04.jpg', cnt3)
+        write_log(game_log)
+        # wait_click('rise_xman_01.jpg')  # chasing
+        # time.sleep(random.uniform(1.01, 1.53))
+        # wait_click('rise_xman_01_03.jpg')
+        # check_click_in('battle.jpg', pag.locateOnScreen(os.path.join(button_path2, 'rise_xman_01_03_04.jpg')))
+        # iter_battle(cnt3)
+        # time.sleep(random.uniform(2.71, 3.53))
+        # check_click('back_button.jpg')
+        # time.sleep(random.uniform(1.71, 2.53))
+        # check_click('back_button.jpg')
+    if cnt4 > 0:
+        game_log[str(i) + '_do']['rise_xman_04'] = rise_xman_iter('rise_xman_01.jpg', 'rise_xman_01_04.jpg',
+                                                                  None, cnt4)
+        write_log(game_log)
+        # wait_click('rise_xman_01.jpg')  # chasing
+        # time.sleep(random.uniform(1.01, 1.53))
+        # wait_click('rise_xman_01_04.jpg')
+        # iter_battle(cnt4)
+        # time.sleep(random.uniform(2.71, 3.53))
+        # check_click('back_button.jpg')
+        # time.sleep(random.uniform(1.71, 2.53))
+        # check_click('back_button.jpg')
+    if cnt5 > 0:
+        wait_click('rise_xman_02.jpg')
+        wait_click('rise_xman_02_01.jpg')
+        iter_battle(cnt5)
+        time.sleep(random.uniform(2.71, 3.53))
+        check_click('ok_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('reload_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        game_log[str(i) + '_do']['rise_xman_05'] = cnt5
+        write_log(game_log)
+    if cnt6 > 0:
+        wait_click('rise_xman_02.jpg')
+        wait_click('rise_xman_02_02.jpg')
+        iter_battle(cnt6)
+        time.sleep(random.uniform(2.71, 3.53))
+        check_click('ok_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('reload_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('back_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        game_log[str(i) + '_do']['rise_xman_06'] = cnt6
+        write_log(game_log)
+    time.sleep(random.uniform(2.71, 3.53))
+    if cnt7 > 0:
+        wait_click('rise_xman_03.jpg')
+        iter_battle(cnt7)
+        time.sleep(random.uniform(2.71, 3.53))
+        check_click('ok_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        check_click('reload_button.jpg')
+        time.sleep(random.uniform(1.71, 2.53))
+        game_log[str(i) + '_do']['rise_xman_07'] = cnt7
+        write_log(game_log)
+    time.sleep(random.uniform(2.71, 3.53))
+    print('end rise_xman')
+    return game_log
 
 
 def rise_xman(cnt1=10, cnt2=10, cnt3=10, cnt4=10, cnt5=2, cnt6=2):
@@ -963,13 +1220,8 @@ def rise_xman(cnt1=10, cnt2=10, cnt3=10, cnt4=10, cnt5=2, cnt6=2):
     # wait_click('back_button.jpg')
 
 
-# def load_log(file):
-#     with open(file, 'rb') as f:
-#         return pickle.load(f)
-#         # print('first_family_01', game_log['max']['first_family_01'])
-
-
-# game_log = load_log('game_log.pickle')
+def gain_energy():
+    pass
 
 
 '''
@@ -983,10 +1235,11 @@ def rise_xman(cnt1=10, cnt2=10, cnt3=10, cnt4=10, cnt5=2, cnt6=2):
 
 
 def load_log(file='game_log.json'):
-    last_modified = os.path.getctime(file) if os.path.exists(file) else -1
-    print('last modified date is ', time.gmtime(last_modified).tm_yday, 'today is ', time.gmtime(time.time()).tm_yday)
-    # print(time.time())
-    if time.gmtime(time.time()).tm_yday == time.gmtime(last_modified).tm_yday:
+    last_modified = os.path.getmtime(file) if os.path.exists(file) else -1
+    print('last modified date is ', time.localtime(last_modified).tm_yday,
+          'today is ', time.localtime(time.time()).tm_yday)
+    print(time.time(), time.localtime(time.time()).tm_mday)
+    if time.localtime(time.time()).tm_yday == time.localtime(last_modified).tm_yday:
         # game_log = pickle.load(open(file, 'rb'))
         # game_log = json.load(file)
         log_file = open(file)
@@ -1000,58 +1253,65 @@ def load_log(file='game_log.json'):
                             'x_force_01': 10, 'x_force_02': 10, 'x_force_03': 3, 'x_force_04': 3,
                             'x_force_05': 3, 'x_force_06': 3,
                             'rise_xman_01': 10, 'rise_xman_02': 10, 'rise_xman_03': 10, 'rise_xman_04': 10,
-                            'rise_xman_05': 2, 'rise_xman_06': 2},
-                    1: {'dimension_mission': 10,
-                        'first_family_01': 10, 'first_family_02': 0, 'first_family_03': 3, 'first_family_04': 3,
-                        'first_family_05': 3, 'first_family_06': 0,
-                        'x_force_01': 10, 'x_force_02': 10, 'x_force_03': 3, 'x_force_04': 3,
-                        'x_force_05': 3, 'x_force_06': 0,
-                        'rise_xman_01': 10, 'rise_xman_02': 10, 'rise_xman_03': 10, 'rise_xman_04': 10,
-                        'rise_xman_05': 2, 'rise_xman_06': 2},
-                    2: {'dimension_mission': 10,
-                        'first_family_01': 10, 'first_family_02': 10, 'first_family_03': 3, 'first_family_04': 3,
-                        'first_family_05': 3, 'first_family_06': 0,
-                        'x_force_01': 10, 'x_force_02': 10, 'x_force_03': 3, 'x_force_04': 3,
-                        'x_force_05': 0, 'x_force_06': 0,
-                        'rise_xman_01': 10, 'rise_xman_02': 10, 'rise_xman_03': 10, 'rise_xman_04': 10,
-                        'rise_xman_05': 2, 'rise_xman_06': 2},
-                    3: {'dimension_mission': 10,
-                        'first_family_01': 10, 'first_family_02': 10, 'first_family_03': 3, 'first_family_04': 3,
-                        'first_family_05': 3, 'first_family_06': 0,
-                        'x_force_01': 10, 'x_force_02': 0, 'x_force_03': 3, 'x_force_04': 0,
-                        'x_force_05': 0, 'x_force_06': 0,
-                        'rise_xman_01': 10, 'rise_xman_02': 10, 'rise_xman_03': 10, 'rise_xman_04': 10,
-                        'rise_xman_05': 2, 'rise_xman_06': 2},
+                            'rise_xman_05': 2, 'rise_xman_06': 2, 'rise_xman_07': 2,
+                            "sorcerer_supreme_01": 3, "sorcerer_supreme_02": 3},
+                    '1': {'dimension_mission': 10,
+                          'first_family_01': 10, 'first_family_02': 10, 'first_family_03': 3, 'first_family_04': 3,
+                          'first_family_05': 3, 'first_family_06': 0,
+                          'x_force_01': 10, 'x_force_02': 10, 'x_force_03': 3, 'x_force_04': 3,
+                          'x_force_05': 3, 'x_force_06': 0,
+                          'rise_xman_01': 10, 'rise_xman_02': 10, 'rise_xman_03': 10, 'rise_xman_04': 10,
+                          'rise_xman_05': 2, 'rise_xman_06': 2, 'rise_xman_07': 2,
+                          "sorcerer_supreme_01": 3, "sorcerer_supreme_02": 3},
+                    '2': {'dimension_mission': 10,
+                          'first_family_01': 10, 'first_family_02': 10, 'first_family_03': 3, 'first_family_04': 3,
+                          'first_family_05': 3, 'first_family_06': 0,
+                          'x_force_01': 10, 'x_force_02': 10, 'x_force_03': 3, 'x_force_04': 3,
+                          'x_force_05': 3, 'x_force_06': 0, 'rise_xman_07': 0,
+                          'rise_xman_01': 10, 'rise_xman_02': 10, 'rise_xman_03': 10, 'rise_xman_04': 10,
+                          'rise_xman_05': 2, 'rise_xman_06': 2,
+                          "sorcerer_supreme_01": 3, "sorcerer_supreme_02": 3},
+                    '3': {'dimension_mission': 10,
+                          'first_family_01': 10, 'first_family_02': 10, 'first_family_03': 3, 'first_family_04': 3,
+                          'first_family_05': 3, 'first_family_06': 0,
+                          'x_force_01': 10, 'x_force_02': 10, 'x_force_03': 3, 'x_force_04': 3,
+                          'x_force_05': 0, 'x_force_06': 0, 'rise_xman_07': 0,
+                          'rise_xman_01': 10, 'rise_xman_02': 10, 'rise_xman_03': 10, 'rise_xman_04': 10,
+                          'rise_xman_05': 2, 'rise_xman_06': 2,
+                          "sorcerer_supreme_01": 3, "sorcerer_supreme_02": 3},
                     '1_do': {'dimension_mission': 0,
                              'first_family_01': 0, 'first_family_02': 0, 'first_family_03': 0, 'first_family_04': 0,
                              'first_family_05': 0, 'first_family_06': 0,
                              'x_force_01': 0, 'x_force_02': 0, 'x_force_03': 0, 'x_force_04': 0,
                              'x_force_05': 0, 'x_force_06': 0,
                              'rise_xman_01': 0, 'rise_xman_02': 0, 'rise_xman_03': 0, 'rise_xman_04': 0,
-                             'rise_xman_05': 0, 'rise_xman_06': 0},
+                             'rise_xman_05': 0, 'rise_xman_06': 0, 'rise_xman_07': 0,
+                             "sorcerer_supreme_01": 0, "sorcerer_supreme_02": 0},
                     '2_do': {'dimension_mission': 0,
                              'first_family_01': 0, 'first_family_02': 0, 'first_family_03': 0, 'first_family_04': 0,
                              'first_family_05': 0, 'first_family_06': 0,
                              'x_force_01': 0, 'x_force_02': 0, 'x_force_03': 0, 'x_force_04': 0,
                              'x_force_05': 0, 'x_force_06': 0,
                              'rise_xman_01': 0, 'rise_xman_02': 0, 'rise_xman_03': 0, 'rise_xman_04': 0,
-                             'rise_xman_05': 0, 'rise_xman_06': 0},
+                             'rise_xman_05': 0, 'rise_xman_06': 0, 'rise_xman_07': 0,
+                             "sorcerer_supreme_01": 0, "sorcerer_supreme_02": 0},
                     '3_do': {'dimension_mission': 0,
                              'first_family_01': 0, 'first_family_02': 0, 'first_family_03': 0, 'first_family_04': 0,
                              'first_family_05': 0, 'first_family_06': 0,
                              'x_force_01': 0, 'x_force_02': 0, 'x_force_03': 0, 'x_force_04': 0,
                              'x_force_05': 0, 'x_force_06': 0,
                              'rise_xman_01': 0, 'rise_xman_02': 0, 'rise_xman_03': 0, 'rise_xman_04': 0,
-                             'rise_xman_05': 0, 'rise_xman_06': 0}
+                             'rise_xman_05': 0, 'rise_xman_06': 0, 'rise_xman_07': 0,
+                             "sorcerer_supreme_01": 0, "sorcerer_supreme_02": 0}
                     }
     # print('game_log: ', game_log)
     return game_log
 
 
 def write_log(data, file='game_log.json'):
-    print('starting json writing')
     with open(file, 'w', encoding='utf-8') as json_file:
         json.dump(data, json_file)
+    print('log writing finished')
 
 
 """
@@ -1085,7 +1345,7 @@ else:
                         'rise_xman_01': 10, 'rise_xman_02': 10, 'rise_xman_03': 10, 'rise_xman_04': 10,
                         'rise_xman_05': 2, 'rise_xman_06': 2},
                 1: {'dimension_mission': 10,
-                    'first_family_01': 10, 'first_family_02': 0, 'first_family_03': 3, 'first_family_04': 3,
+                    'first_family_01': 10, 'first_family_02': 10, 'first_family_03': 3, 'first_family_04': 3,
                     'first_family_05': 3, 'first_family_06': 0,
                     'x_force_01': 10, 'x_force_02': 10, 'x_force_03': 3, 'x_force_04': 3,
                     'x_force_05': 3, 'x_force_06': 0,
@@ -1101,7 +1361,7 @@ else:
                 3: {'dimension_mission': 10,
                     'first_family_01': 10, 'first_family_02': 0, 'first_family_03': 3, 'first_family_04': 3,
                     'first_family_05': 0, 'first_family_06': 0,
-                    'x_force_01': 10, 'x_force_02': 0, 'x_force_03': 3, 'x_force_04': 0,
+                    'x_force_01': 10, 'x_force_02': 0, 'x_force_03': 3, 'x_force_04': 3,
                     'x_force_05': 0, 'x_force_06': 0,
                     'rise_xman_01': 10, 'rise_xman_02': 10, 'rise_xman_03': 10, 'rise_xman_04': 10,
                     'rise_xman_05': 2, 'rise_xman_06': 2},
