@@ -1,85 +1,16 @@
-import pyautogui as pag
-import time
-import random
-import os
-import cv2
 import wx
-from pytesseract import *
-from skimage.metrics import structural_similarity
-# import pyscreenshot as ImageGrab
-from PIL import Image
-import imutils
 from utils import *
-import json
-import pickle
-# import tqdm
+import argparse
 
 
-'''
-to utils
+parser = argparse.ArgumentParser()
+parser.add_argument('account', type=int,
+                    help='0: current, 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020')
+args = parser.parse_args()
+print('You selected ', args.account)
 
-# def go_home():
-#     # go to home if not home
-#     time.sleep(random.uniform(0.2, 0.5))
-#     check_click_v2('go_home.jpg')
-#     time.sleep(random.uniform(0.5, 1.5))
-
-# def check_click_v2(filename):
-#     button = pag.locateOnScreen(os.path.join('buttons/', filename), grayscale=True, confidence=.9)
-#     print(filename, button)
-#     # Box(left=1416, top=562, width=50, height=41)
-#     if button is not None:
-#         try:
-#             mouse_click(button[0] + button[2] / 2 + random.uniform(0, button[2] * 0.3),
-#                         button[1] + button[3] / 2 + random.uniform(0, button[3] * 0.3))
-#         finally:
-#             pass
-
-def wait_click(filename):
-    while True:
-        if pag.locateOnScreen(os.path.join('buttons/', filename), grayscale=True, confidence=.9):
-            time.sleep(random.uniform(1.1, 1.5))
-            check_click(filename)
-            time.sleep(random.uniform(0.1, 0.5))
-            if pag.locateOnScreen(os.path.join('buttons/', filename), grayscale=True, confidence=.9) is None:
-                break
-        else:
-            time.sleep(random.uniform(0.5, 1))
-
-
-
-def check_click(filename):
-    # 버튼의 이미지가 있다면, 화면에서 해당 버튼의 좌표를 산출할 수 있다.
-    # https://pyautogui.readthedocs.io/en/latest/screenshot.html
-    # pass_over_button = pag.locateOnScreen('button_pass_over.jpg')
-    button = pag.locateOnScreen(os.path.join('buttons/', filename), grayscale=True, confidence=.9)
-    print(os.path.join('buttons/', filename), button)
-    # https://automatetheboringstuff.com/chapter18/
-    # locateOnScreen은 이미지가 완벽하게 매칭되어야 함 ㅠㅠ
-    # Note that the image on the screen must match the provided image perfectly in order to be recognized.
-
-    # Box(left=1416, top=562, width=50, height=41)
-    if button is not None:
-        try:
-            print(button[0])
-            mouse_click(button[0] + button[2]/2 + random.uniform(0, button[2]*0.3),
-                        button[1] + button[3]/2 + random.uniform(0, button[3]*0.3))
-            # pag.moveTo(x=pass_over_button[0], y=pass_over_button[1])
-        finally:
-            pass
-
-def mouse_click(pos_x, pos_y):
-    x, y = pag.position()
-    pag.moveTo(pos_x, pos_y)
-    pag.mouseDown()
-    # time.sleep(random.uniform(1.01, 2.23))
-    time.sleep(random.uniform(0.21, 0.43))
-    pag.mouseUp()
-    pag.moveTo(x, y)
-
-'''
 game_log = load_log('game_log.json')
-write_log(game_log)
+# write_log(game_log)
 
 
 def pass_over4():
@@ -100,68 +31,11 @@ def pass_over4():
         # pag.moveTo(x=pass_over_button[0], y=pass_over_button[1])
 
 
-def epic_quest(quest_seq, cnt):
-    # 다른 화면이라면 홈으로
-    # sleep_click(pos_x, pos_y, width, height, sleep_min, sleep_max)
-
-    print('enter battle')
-    sleep_click(1645, 988, 3, 25, 1.01, 1.73)   # enter_battle
-
-    print('epic quest')
-    sleep_click_v2(982, 326, 1376, 967, 1.01, 1.93)     # select_mission
-
-    if quest_seq == 3:  # 라이즈 오브 엑스맨
-        print('select_mission')
-        sleep_click_v2(1221, 215, 1712, 800, 1.01, 1.53)  # select_mission
-        sleep_click_v2(767, 764, 860, 854, 1.01, 1.53)  # chasing
-        for i in range(4):
-            if i == 0:
-                # pass
-                sleep_click_v2(308, 315, 545, 674, 1.01, 2.23)  # select_mission
-                sleep_click_v2(1274, 730, 1454, 784, 1.01, 2.23)  # select_battle
-                iter_battle(cnt)
-                check_click('back_button.jpg')
-            elif i == 1:
-                # pass
-                sleep_click_v2(646, 317, 879, 676, 1.01, 2.23)  # select_mission
-                sleep_click_v2(1274, 730, 1454, 784, 1.01, 2.23)  # select_battle
-                iter_battle(cnt)
-                check_click('back_button.jpg')
-            elif i == 2:
-                # pass
-                sleep_click_v2(977, 314, 1220, 675, 1.01, 2.23)  # select_mission
-                sleep_click_v2(1274, 730, 1454, 784, 1.01, 2.23)  # select_battle
-                iter_battle(cnt)
-                check_click('back_button.jpg')
-            elif i == 3:
-                # pass
-                sleep_click_v2(1312, 311, 1551, 670, 2.01, 3.23)  # select_mission
-                sleep_click_v2(1274, 730, 1454, 784, 2.01, 3.23)  # select_battle
-                iter_battle(cnt)
-
-
 def start_battle():
     pag.moveTo(x=911, y=962)
     pag.mouseDown()
     time.sleep(random.uniform(0.01, 0.23))
     pag.mouseUp()
-
-
-def skip():
-    pag.moveTo(x=973, y=481)
-    pag.mouseDown()
-    time.sleep(random.uniform(0.01, 0.23))
-    pag.mouseUp()
-
-
-def button_assistance():
-    time.sleep(random.uniform(1.5, 2))
-#     pass_over4()
-    check_click('button_pass_over.jpg')
-    check_click('move_to_slot.jpg')
-    check_click('right_arrow.jpg')
-    check_click('x_button.jpg')
-    check_click('ok_button.jpg')
 
 
 def check_status():
@@ -248,33 +122,6 @@ def world_boss_envasion():
     wait_click('enter_battle.jpg', 0.1, 0.5, 0, 0, 1)
     wait_click('mission_04.jpg', 0.1, 0.5, 0, 0, 1)
     wait_click('world_boss_envasion.jpg.jpg', 0.1, 0.5, 0, 0, 1)
-
-
-def dim_to_epic(account=1):
-    go_home()
-    change_account_v2(account)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
-    time.sleep(random.uniform(2.71, 3.53))
-
-    dim_to_do = game_log[str(account)]['dimension_mission'] - game_log[str(account)+'_do']['dimension_mission']
-    if dim_to_do > 0:
-        game_log[str(account)+'_do']['dimension_mission'] = dimension_mission(dim_to_do)
-        print('Done : ', game_log[str(account)+'_do']['dimension_mission'])
-        write_log(game_log)
-        time.sleep(random.uniform(2.71, 3.53))
-
-    first_family_v2(account, game_log)        # 10, 10, 3, 3, 3
-    time.sleep(random.uniform(2.71, 3.53))
-
-    x_force_v2(account, game_log)       # 10, 10, 3, 3, 3
-    time.sleep(random.uniform(2.71, 3.53))
-
-    rise_xman_v2(account, game_log)     # 10, 10, 10, 10, 2, 2
-    time.sleep(random.uniform(2.71, 3.53))
-
-    log = sorcerer_supreme_v2(account, game_log)
-    time.sleep(random.uniform(2.71, 3.53))
-    write_log(log)
-    time.sleep(random.uniform(2.71, 3.53))
 
 
 def first_family_all_account():
@@ -492,33 +339,33 @@ def do_log():
 # ehdgml7604()        # StarangeHee
 # handhee2020()
 
-# dimension_mission(10)
-dim_to_epic(account=1)
-# dim_to_epic(account=2)
-# dim_to_epic(account=3)
+# dim_to_epic(account=1, game_log=game_log)
+# dim_to_epic(3, game_log)
+# dim_to_epic(2, game_log)
+# dim_to_epic(1, game_log)
+dimension_mission(10)
+# dim_to_epic(None, game_log)
+# dim_to_epic(args.account, game_log)
 
-# legendary_battle(2, 3)     # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
+# dim_to_epic_1(account=2, game_log=game_log)
+# dim_to_epic_1(account=1, game_log=game_log)
+# dim_to_epic_1(account=3, game_log=game_log)
+
+# dim_to_epic_2(account=1, game_log=game_log)
+# dim_to_epic_2(account=2, game_log=game_log)
+# dim_to_epic_2(account=3, game_log=game_log)
+
+# dim_to_epic_3(account=1, game_log=game_log)
+# dim_to_epic_3(account=2, game_log=game_log)
+# dim_to_epic_3(account=3, game_log=game_log)
+
+# legendary_battle(2, cnt=3)     # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
 
 # change_account_v2(1)   # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
 # change_account_v2(2)   # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
 # change_account_v2(3)   # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
 
-# dimension_mission_all_account()
-# time.sleep(random.uniform(2.71, 3.53))
-# first_family_all_account()
-# time.sleep(random.uniform(2.71, 3.53))
-# x_force_all_account()
-# time.sleep(random.uniform(2.71, 3.53))
-# rise_xman_all_account()
-# time.sleep(random.uniform(2.71, 3.53))
-
-# sorcerer_supreme_all_account()
-# time.sleep(random.uniform(2.71, 3.53))
-# dimension_mission_all_account()
-# legendary_all_account()
-# rise_xman(10, 10, 10, 10, 2, 2)     # 10, 10, 10, 10, 2, 2
-
-# write_log(game_log, 'game_log.json')
 
 # ehdgml76 계정 last 2020-04-05 12:08 AM
 # ehdgml76 계정 last 2020-04-25 22:39, 근데 뭐 안주는데?
+
