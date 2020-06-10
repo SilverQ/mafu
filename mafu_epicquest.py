@@ -11,6 +11,10 @@ print('You selected ', args.account)
 game_log = load_log('game_log.json')
 # write_log(game_log)
 
+remained_energy = 120
+remained_energy = detect_energy()
+print('Remained Energy = ', remained_energy)
+
 dim_to_epic(args.account, game_log)
 
 # def pass_over4():

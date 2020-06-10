@@ -124,108 +124,6 @@ def world_boss_envasion():
     wait_click('world_boss_envasion.jpg.jpg', 0.1, 0.5, 0, 0, 1)
 
 
-def first_family_all_account():
-    change_account(3)
-    time.sleep(random.uniform(2.71, 3.53))
-    first_family(10, 10, 3, 3, 3)
-    time.sleep(random.uniform(2.71, 3.53))
-
-    change_account(2)
-    time.sleep(random.uniform(2.71, 3.53))
-    first_family(10, 10, 3, 3, 3)
-    time.sleep(random.uniform(2.71, 3.53))
-
-    change_account(1)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
-    time.sleep(random.uniform(2.71, 3.53))
-    first_family(10, 0, 3, 3, 3)
-    time.sleep(random.uniform(2.71, 3.53))
-
-
-def x_force_all_account():
-    change_account(1)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
-    time.sleep(random.uniform(2.71, 3.53))
-    x_force(10, 10, 3, 3, 3)       # 10, 10, 3, 3, 3
-    time.sleep(random.uniform(2.71, 3.53))
-
-    change_account(2)
-    time.sleep(random.uniform(2.71, 3.53))
-    x_force(10, 10, 3, 3, 0)         # 10, 10, 3, 3, 0,  도미노 할 수 있는지 확인
-    time.sleep(random.uniform(2.71, 3.53))
-
-    change_account(3)
-    time.sleep(random.uniform(2.71, 3.53))
-    x_force(10, 0, 3, 0, 0)             # 10, 0, 3, 0, 0
-    time.sleep(random.uniform(2.71, 3.53))
-
-
-def rise_xman_all_account():
-    change_account(3)
-    time.sleep(random.uniform(2.71, 3.53))
-    rise_xman(10, 10, 10, 10, 2, 2)     # 10, 10, 10, 10, 2, 2
-    time.sleep(random.uniform(2.71, 3.53))
-
-    change_account(1)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
-    time.sleep(random.uniform(2.71, 3.53))
-    rise_xman(10, 10, 10, 10, 2, 2)     # 10, 10, 10, 10, 2, 2
-    time.sleep(random.uniform(2.71, 3.53))
-
-    change_account(2)
-    time.sleep(random.uniform(2.71, 3.53))
-    rise_xman(10, 10, 10, 10, 2, 2)     #
-    time.sleep(random.uniform(2.71, 3.53))
-
-
-def sorcerer_supreme_all_account():
-    # change_account(2)
-    # time.sleep(random.uniform(2.71, 3.53))
-    # sorcerer_supreme(3, 3)
-    # time.sleep(random.uniform(2.71, 3.53))
-
-    change_account(1)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
-    time.sleep(random.uniform(2.71, 3.53))
-    sorcerer_supreme(1, 3)
-    time.sleep(random.uniform(2.71, 3.53))
-
-    change_account(3)
-    time.sleep(random.uniform(2.71, 3.53))
-    sorcerer_supreme(3, 3)
-    time.sleep(random.uniform(2.71, 3.53))
-
-
-def dimension_mission_all_account():
-    change_account(1)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
-    time.sleep(random.uniform(2.71, 3.53))
-    dimension_mission(10)
-    time.sleep(random.uniform(2.71, 3.53))
-
-    change_account(2)
-    time.sleep(random.uniform(2.71, 3.53))
-    dimension_mission(10)
-    time.sleep(random.uniform(2.71, 3.53))
-
-    change_account(3)
-    time.sleep(random.uniform(2.71, 3.53))
-    dimension_mission(10)
-    time.sleep(random.uniform(2.71, 3.53))
-
-
-def legendary_all_account():
-    change_account(1)
-    time.sleep(random.uniform(2.71, 3.53))
-    legendary_battle(1)     # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
-    time.sleep(random.uniform(2.71, 3.53))
-
-    change_account(2)
-    time.sleep(random.uniform(2.71, 3.53))
-    legendary_battle(2)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
-    time.sleep(random.uniform(2.71, 3.53))
-
-    change_account(3)
-    time.sleep(random.uniform(2.71, 3.53))
-    legendary_battle(3)  # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
-    time.sleep(random.uniform(2.71, 3.53))
-
-
 def do_log():
     def check_current_account():
         current_account = 0
@@ -343,21 +241,13 @@ def do_log():
 # dim_to_epic(3, game_log)
 # dim_to_epic(2, game_log)
 # dim_to_epic(1, game_log)
-dimension_mission(10)
+# dimension_mission(10)
 # dim_to_epic(None, game_log)
 # dim_to_epic(args.account, game_log)
+# rise_xman_v2(2, game_log)
 
-# dim_to_epic_1(account=2, game_log=game_log)
-# dim_to_epic_1(account=1, game_log=game_log)
-# dim_to_epic_1(account=3, game_log=game_log)
+# sorcerer_supreme_v2(2, game_log)
 
-# dim_to_epic_2(account=1, game_log=game_log)
-# dim_to_epic_2(account=2, game_log=game_log)
-# dim_to_epic_2(account=3, game_log=game_log)
-
-# dim_to_epic_3(account=1, game_log=game_log)
-# dim_to_epic_3(account=2, game_log=game_log)
-# dim_to_epic_3(account=3, game_log=game_log)
 
 # legendary_battle(2, cnt=3)     # 1: 한또르(7602), 2: Stranghee, 3: ScOrpiOn2020
 
@@ -368,4 +258,7 @@ dimension_mission(10)
 
 # ehdgml76 계정 last 2020-04-05 12:08 AM
 # ehdgml76 계정 last 2020-04-25 22:39, 근데 뭐 안주는데?
+# ehdgml76 계정 last 2020-06-04 02:39, 근데 뭐 안주는데?
+
+print(detect_energy())
 
